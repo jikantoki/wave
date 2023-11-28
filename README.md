@@ -137,14 +137,14 @@ define('SMTP_Port', 587); //基本は587を使えば大丈夫
 大体こんな感じで設定する
 
 ```htaccess
-#トップページを/nuxt3temp/php にする
+#トップページを/wave/php にする
 <IfModule mod_rewrite.c>
 RewriteEngine on
 RewriteBase /
-RewriteRule ^$ nuxt3temp/php/ [L]
+RewriteRule ^$ wave/php/ [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.+)$ nuxt3temp/php/$1 [L]
+RewriteRule ^(.+)$ wave/php/$1 [L]
 </IfModule>
 # 外部からのAPIへのアクセスを許可
 Header append Access-Control-Allow-Origin: "*"

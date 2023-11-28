@@ -1,6 +1,6 @@
 {
-  "short_name": "NuxTemp",
-  "name": "Nuxt Template",
+  "short_name": "Wave",
+  "name": "Wave",
   "display": "standalone",
   "display_override": ["standalone"],
   "lang": "ja-JP",
@@ -52,5 +52,5 @@
       ]
     }
   ],
-  "description": "簡単にNuxt.jsを使用するチュートリアルパッケージ"
+  "description": "音楽と繋がるSNS"
 }

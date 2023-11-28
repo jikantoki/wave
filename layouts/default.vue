@@ -10,7 +10,7 @@
       common-bar(
         v-if="!userStore.userId"
         title="ログインして、もっと便利に"
-        subTitle="NuxTempにログインし、通知の挙動をチェックしてみよう"
+        subTitle="Waveにログインし、世界と繋がろう"
         :buttons="commonBarButtons"
         )
       common-bar(

@@ -14,7 +14,7 @@ export default {
   setup() {
     //サーバーサイドで仮のタイトルを設定、mountedで言語ごとに再設定する
     Setup.setTitle('About')
-    Setup.setDescription('NuxTempについて')
+    Setup.setDescription('Waveについて')
   },
   mounted() {
     this.setTitle('About')

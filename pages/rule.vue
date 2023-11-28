@@ -23,7 +23,7 @@ export default {
   setup() {
     //サーバーサイドで仮のタイトルを設定、mountedで言語ごとに再設定する
     Setup.setTitle('Rule')
-    Setup.setDescription('NuxTempの利用規約です。')
+    Setup.setDescription('Waveの利用規約です。')
   },
   data() {
     return {}
