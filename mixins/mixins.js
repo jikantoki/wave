@@ -31,6 +31,7 @@ export default {
       localeStore: useLocaleStore(),
       commonBarStore: useCommonBarStore(),
       nowTheme: useThemeStore(),
+      useHumbergerStore: useHumbergerStore(),
     }
   },
   computed: {
