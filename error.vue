@@ -63,6 +63,10 @@ body {
   transition: all 0.14s;
   font-family: $font !important;
 }
+.error-page {
+  background-color: black;
+  color: #eeeeee;
+}
 .center {
   width: 60%;
   margin: auto;
