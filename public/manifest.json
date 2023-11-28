@@ -1,0 +1,56 @@
+{
+  "short_name": "NuxTemp",
+  "name": "Nuxt Template",
+  "display": "standalone",
+  "display_override": ["standalone"],
+  "lang": "ja-JP",
+  "start_url": "./",
+  "id": "./",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "categories": ["social"],
+  "icons": [
+    {
+      "src": "img/icon512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "img/icon192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "img/icon512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Top",
+      "description": "トップページ",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/img/favicon.ico",
+          "size": "32x32"
+        }
+      ]
+    },
+    {
+      "name": "About",
+      "description": "このアプリについて",
+      "url": "/about",
+      "icons": [
+        {
+          "src": "/img/favicon.ico",
+          "size": "32x32"
+        }
+      ]
+    }
+  ],
+  "description": "簡単にNuxt.jsを使用するチュートリアルパッケージ"
+}

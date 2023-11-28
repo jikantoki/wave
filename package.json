@@ -1,0 +1,40 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "version": "3.0.0",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev --port 12345",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-throw-expressions": "^7.22.5",
+    "@nuxt/devtools": "latest",
+    "nuxt": "^3.7.4",
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.5"
+  },
+  "dependencies": {
+    "@babel/eslint-parser": "^7.22.15",
+    "@mdi/font": "^7.3.67",
+    "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
+    "@pinia/nuxt": "^0.5.1",
+    "@typescript-eslint/parser": "^6.7.5",
+    "@vue/language-plugin-pug": "^1.8.18",
+    "eslint": "^8.51.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-nuxt": "^4.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-vue": "^9.17.0",
+    "prettier": "^3.0.3",
+    "pug": "^3.0.2",
+    "sass": "^1.69.1",
+    "vite-plugin-vuetify": "^1.0.2",
+    "vue-content-loader": "^2.0.1",
+    "vue-i18n": "^9.5.0",
+    "vuetify": "^3.4.0-alpha.1"
+  }
+}
