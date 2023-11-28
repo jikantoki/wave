@@ -11,11 +11,13 @@ import Functions from '~/js/Functions'
 import ContentLoader from '~/components/LoadingText'
 import { useCommonBarStore } from '~/composables/commonBar'
 import { useThemeStore } from '~/composables/theme'
+import ComponentButton from '~/components/componentButton.vue'
 
 export default {
   components: {
     adsense: adsense,
     ContentLoader: ContentLoader,
+    ComponentButton: ComponentButton,
   },
   data() {
     return {

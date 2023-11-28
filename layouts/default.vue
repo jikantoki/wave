@@ -20,6 +20,7 @@
         :buttons="commonBarPushButtons"
         @clicked="pushFlow()"
         )
+      component-button(icon="mdi-pencil")
       footer.pa-16#footer
         common-footer
   v-dialog(v-model="dialog" max-width="500")
