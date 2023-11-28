@@ -157,9 +157,7 @@ export default {
       return res
     },
     async getRequest() {
-      console.log('a')
       const webPush = await webpush.get(true)
-      console.log('b')
       if (webPush) {
         this.dialogTitle = 'ありがとうございます！'
         this.dialogText = 'プッシュ通知の許可に成功しました。'
