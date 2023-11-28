@@ -8,6 +8,10 @@
 
 Waveとは、曲解すると音楽の周波数や、人と人との繋がりによくある波のこと。
 
+## ここから先、ベースシステムからのコピペreadme
+
+ベースシステム: https://github.com/jikantoki/nuxt3temp
+
 ## 前提
 
 Node.jsとnpmとyarnくらい入ってるよね！（投げやり）
