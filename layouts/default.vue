@@ -8,21 +8,26 @@
       .center.main-content
         router-view
       common-bar(
-        v-if="!userStore.userId"
+        v-if="!userStore || !userStore.userId"
         title="ログインして、もっと便利に"
         subTitle="Waveにログインし、世界と繋がろう"
         :buttons="commonBarButtons"
         )
       common-bar(
-        v-if="userStore.userId && isDisplayCommonPushButtons"
+        v-if="userStore && userStore.userId && isDisplayCommonPushButtons"
         title="最新の情報を入手しよう"
         subTitle="通知の送信を許可することで、最新情報を入手できます。"
         :buttons="commonBarPushButtons"
         @clicked="pushFlow()"
         )
-      component-button(icon="mdi-pencil")
+      component-button(
+        v-if="userStore && userStore.userId"
+        icon="mdi-pencil"
+        @clicked="postForm = true"
+        )
       footer.pa-16#footer
         common-footer
+  ComponentPostForm(:show="postForm")
   v-dialog(v-model="dialog" max-width="500")
     v-card
       v-card-title {{ dialogTitle }}
@@ -47,6 +52,7 @@ import mixins from '~/mixins/mixins'
 import webpush from '~/js/webpush'
 import splash from '~/components/common/commonSplash'
 import commonBar from '~/components/common/commonBar.vue'
+import ComponentPostForm from '~/components/componentPostForm.vue'
 
 export default {
   /**
@@ -61,6 +67,7 @@ export default {
     commonFooter: commonFooter,
     splash: splash,
     commonBar: commonBar,
+    ComponentPostForm: ComponentPostForm,
   },
   mixins: [mixins],
   /**
@@ -94,6 +101,7 @@ export default {
       dialogTitle: null,
       dialogText: null,
       dialogActions: null,
+      postForm: false,
     }
   },
   /**

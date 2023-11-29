@@ -1,9 +1,10 @@
 <template lang="pug">
 .component-button(
-  @click="$emit('clicked', id)"
   v-ripple
   )
-  v-icon.icon {{ icon }}
+  v-icon.icon(
+    @click="$emit('clicked', id)"
+    ) {{ icon }}
 </template>
 
 <script>
@@ -34,12 +35,13 @@ export default {
   width: 4em;
   background-color: var(--accent-color);
   color: white;
-  cursor: pointer;
   border-radius: 9999px;
   .icon {
     font-size: 2.5em;
     height: 100%;
     width: 100%;
+    cursor: pointer;
+    overflow: hidden;
   }
 }
 </style>
