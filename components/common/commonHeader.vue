@@ -263,7 +263,7 @@ export default {
         //スワイプ後の動作
         if (endX - startX > 0) {
           //rightswipe
-          if (useHumbergerStore.disabled === false) {
+          if (this.useHumbergerStore.disabled === false) {
             this.drawer = true
           }
         }

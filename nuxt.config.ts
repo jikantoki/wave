@@ -22,7 +22,7 @@ export default defineNuxtConfig({
           hid: 'og:image',
           property: 'og:image',
           /** 相対パスNGらしいので各自で書き換えること */
-          content: 'https://nuxt.enoki.xyz/img/thumbnail.jpg',
+          content: 'https://wave.enoki.xyz/img/thumbnail.jpg',
         },
         { name: 'format-detection', content: 'telephone=no' },
         { name: 'mobile-web-app-capable', content: 'yes' },

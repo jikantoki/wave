@@ -27,7 +27,10 @@
         )
       footer.pa-16#footer
         common-footer
-  ComponentPostForm(:show="postForm")
+  ComponentPostForm(
+    @close="postClose()"
+    v-if="postForm"
+    )
   v-dialog(v-model="dialog" max-width="500")
     v-card
       v-card-title {{ dialogTitle }}
@@ -209,6 +212,9 @@ export default {
         }
         return null
       }
+    },
+    postClose() {
+      this.postForm = false
     },
   },
 }
