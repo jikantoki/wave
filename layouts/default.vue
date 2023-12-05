@@ -25,7 +25,7 @@
         icon="mdi-pencil"
         @clicked="postForm = true"
         )
-      footer.pa-16#footer
+      footer.pa-16.footer
         common-footer
   ComponentPostForm(
     @close="postClose()"
@@ -151,7 +151,7 @@ export default {
     window.setTimeout(() => {
       this.splash = false
       this.style = 'opacity: 1;'
-    }, 2000)
+    }, 1000)
   },
   /**
    * ページ離脱時にやりたい事
@@ -451,7 +451,7 @@ body {
     .center.main-content {
       flex: 1;
     }
-    #footer {
+    .footer {
       bottom: 0;
       width: 100%;
       height: 100px !important;

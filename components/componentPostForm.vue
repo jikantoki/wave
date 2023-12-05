@@ -10,10 +10,12 @@
           .post-textarea.pa-2(
             ref="postTextarea"
             contenteditable
-            v-html="defaultPostMessage"
+            @keydown.enter="checkCtrlPlusEnter"
             @input="changeTextArea(this.$refs.postTextarea)"
           )
-          p.post-label あかさたな
+          p.post-label.pa-2(
+            v-show="postButtonDisabled"
+          ) 今何してる？
       v-card-actions
         v-spacer
         v-btn.post-button(:disabled="postButtonDisabled" @click="postMessage()"
@@ -29,8 +31,6 @@ export default {
     return {
       editorData: null,
       postButtonDisabled: true,
-      defaultPostMessage:
-        '<span style="opacity: 0.7;pointer-events: none;" contenteditable="false">今何してる？</span>',
     }
   },
   mixins: [mixins],
@@ -38,6 +38,7 @@ export default {
   watch: {
     editorData: {
       handler(newText) {
+        console.log(this.noSpaceAndEnter(newText))
         if (this.noSpaceAndEnter(newText)) {
           this.postButtonDisabled = false
         } else {
@@ -49,6 +50,7 @@ export default {
   },
   mounted() {
     this.useHumbergerStore.setDisabled(true)
+    this.$refs.postTextarea.focus()
   },
   unmounted() {
     this.useHumbergerStore.setDisabled(false)
@@ -64,39 +66,53 @@ export default {
       if (!this.editorData) {
         return false
       }
-      if (this.noSpaceAndEnter(this.editorData)) {
+      if (
+        this.noSpaceAndEnter(this.editorData) &&
+        this.noBrTag(this.editorData)
+      ) {
         console.log('post!')
       }
     },
     noSpaceAndEnter(string) {
-      if (!string) {
+      if (!string || string === '') {
         return false
       }
       const str1 = string.replaceAll(' ', '')
       const str2 = str1.replaceAll('　', '')
       const str3 = str2.replaceAll('\n', '')
       const str4 = str3.replaceAll('\r', '')
-      if (str4 === '') {
+      const str5 = str4.replaceAll('<div>', '')
+      const str6 = str5.replaceAll('</div>', '')
+      const str7 = str6.replaceAll('<span>', '')
+      const str8 = str7.replaceAll('</span>', '')
+      if (str8 === '' || str8 === '<br>') {
         return false
       }
-      return str4
+      return str8
+    },
+    noBrTag(string) {
+      if (!string || string === '') {
+        return false
+      }
+      const str1 = this.noSpaceAndEnter(string)
+      const str2 = str1.replaceAll('<br>', '')
+      if (str2 === '') {
+        return false
+      }
+      return str1
     },
     changeTextArea(ref) {
-      const includeNoiseText = ref.innerHTML
-      const sourceText = includeNoiseText.replaceAll(
-        this.defaultPostMessage,
-        '',
-      )
-      if (sourceText === '') {
-        ref.innerHTML = this.defaultPostMessage
-        this.editorData = null
-      } else {
-        if (includeNoiseText !== sourceText) {
-          ref.innerHTML = sourceText
-        }
-        this.editorData = sourceText
+      const text = ref.innerHTML
+      this.editorData = text
+    },
+    checkCtrlPlusEnter(keyboardEvent) {
+      if (
+        !keyboardEvent ||
+        (!keyboardEvent.ctrlKey && !keyboardEvent.metaKey)
+      ) {
+        return false
       }
-      console.log(this.editorData)
+      this.postMessage()
     },
   },
 }
@@ -137,7 +153,10 @@ $breakpoints: (
     .post-main {
       display: inherit;
       position: relative;
+      width: 100%;
       .post-label {
+        opacity: 0.7;
+        pointer-events: none;
         position: absolute;
         pointer-events: none;
       }
