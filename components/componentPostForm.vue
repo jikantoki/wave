@@ -38,7 +38,6 @@ export default {
   watch: {
     editorData: {
       handler(newText) {
-        console.log(this.noSpaceAndEnter(newText))
         if (this.noSpaceAndEnter(newText)) {
           this.postButtonDisabled = false
         } else {
@@ -162,7 +161,9 @@ $breakpoints: (
       }
       .post-textarea {
         width: 100%;
-        height: 100px;
+        min-height: 4em;
+        max-height: 60vh;
+        overflow-y: auto;
         outline: none;
       }
     }
