@@ -16,9 +16,7 @@
           p.post-label あかさたな
       v-card-actions
         v-spacer
-        v-btn.post-button(
-          :disabled="postButtonDisabled"
-          @click="postMessage()"
+        v-btn.post-button(:disabled="postButtonDisabled" @click="postMessage()"
           ) ポスト
 </template>
 
