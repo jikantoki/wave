@@ -21,7 +21,7 @@ export default {
         })
       }
       if ('Notification' in window) {
-        let permission = Notification.permission
+        const permission = Notification.permission
 
         if (permission === 'denied') {
           console.warn(

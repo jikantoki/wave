@@ -1,7 +1,7 @@
 <template lang="pug">
 .v-app-main-application#nuxt
   splash(v-show="splash")
-  v-app.wrap100vh#nuxt(ontouchstart="" style="min-height: 100vh!important;width:100vw" :style="style")
+  v-app.wrap100vh#nuxt(ontouchstart style="min-height: 100vh!important;width:100vw" :style="style")
     header
       common-header
     v-main#main
@@ -14,7 +14,7 @@
         :buttons="commonBarButtons"
         )
       common-bar(
-        v-if="userStore && userStore.userId && isDisplayCommonPushButtons"
+        v-show="userStore && userStore.userId && isDisplayCommonPushButtons"
         title="最新の情報を入手しよう"
         subTitle="通知の送信を許可することで、最新情報を入手できます。"
         :buttons="commonBarPushButtons"

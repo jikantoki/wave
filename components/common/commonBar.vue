@@ -77,6 +77,7 @@ $breakpoints: (
         text-decoration: none;
         color: var(--accent-color);
         border-radius: 9999px;
+        cursor: pointer;
       }
     }
   }
