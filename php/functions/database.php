@@ -217,7 +217,7 @@ function SQLupdate($table, $updateKey, $updateValue, $key, $value)
  */
 function SQLfindSome($table, $array)
 {
-  echo $words;
+  $words = "select * from {$table} where ";
   foreach ($array as $obj) {
     $key = $obj['key'];
     $val = $obj['value'];
