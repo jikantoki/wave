@@ -2,21 +2,26 @@
 .component-post-form(@click="closePostForm()")
   .post-dialog-outer(@click.stop)
     v-card.post-dialog
+      v-card-actions.is-mobile.py-0
+        v-btn(icon="mdi-close" @click="closePostForm()").my-1.mx-0
+        v-spacer
+        v-btn.post-button(:disabled="postButtonDisabled" @click="postMessage()"
+          ) ポスト
       .v-card-main
         .account-image
           img(v-if="userStore && userStore.profile && userStore.profile.icon" :src="userStore.profile.icon")
           img(v-else src="/account_default.jpg")
         .post-main
-          .post-textarea.pa-2(
+          .post-textarea.py-4.px-2(
             ref="postTextarea"
             contenteditable
             @keydown.enter="checkCtrlPlusEnter"
             @input="changeTextArea(this.$refs.postTextarea)"
           )
-          p.post-label.pa-2(
+          p.post-label.py-4.px-2(
             v-show="postButtonDisabled"
           ) 今何してる？
-      v-card-actions
+      v-card-actions.is-not-mobile
         v-spacer
         v-btn.post-button(:disabled="postButtonDisabled" @click="postMessage()"
           ) ポスト
@@ -138,7 +143,7 @@ $breakpoints: (
 }
 .post-dialog {
   width: 95%;
-  max-width: 480px;
+  max-width: 640px;
   height: 50%;
   margin: auto;
   margin-top: calc(100px);

@@ -223,6 +223,7 @@ export default {
 <style lang="scss">
 $breakpoints: (
   'smartPhone': 'screen and (max-width:700px)',
+  'notSmartPhone': 'screen and (min-width:700px)',
   'tablet': 'screen and (max-width:1100px)',
   'pwa': '(display-mode: standalone)',
 ) !default;
@@ -395,14 +396,12 @@ body {
   }
   /** モバイル用表示 */
   .is-mobile {
-    display: none;
-    @include mq('smartPhone') {
-      display: initial;
+    @include mq('notSmartPhone') {
+      display: none;
     }
   }
   /** デスクトップ用表示 */
   .is-not-mobile {
-    display: initial;
     @include mq('smartPhone') {
       display: none;
     }
