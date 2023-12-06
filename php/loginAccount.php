@@ -32,6 +32,13 @@ if ($token) {
   $secretId = idToSecretId($id);
   $mailAddress = secretIdToMailAddress($secretId);
   sendMail($mailAddress, 'ログインがあったよ！', '<h1>ハッハッハあああ</h1><p>本文</p>');
+  sendPushForAccount(
+    $secretId,
+    '新規ログインのお知らせ',
+    '新しい端末でのログインを確認しました。この操作に身に覚えのない場合は、今は対策方法ないけど気を付けてください',
+    null,
+    WebPush_icon
+  );
   SQLupdate('user_secret_list', 'otp', null, 'secretId', $secretId);
 } else {
   echo json_encode([
