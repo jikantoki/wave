@@ -1,6 +1,19 @@
 <?php
 
 /**
+ * 文字列の無害化（対SQL、対JS等）
+ *
+ * @param string $string
+ * @return string
+ */
+function encodeString($string)
+{
+  if (!is_string($string)) {
+    return $string;
+  }
+  return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+}
+/**
  * ランダムな一文字を生成
  *
  * @return string 1文字
@@ -80,6 +93,7 @@ function SQLfetchAll($sql)
 
 function SQLselectTable($tableName)
 {
+  $tableName = encodeString($tableName);
   return SQL("select * from {$tableName}");
 }
 
@@ -90,6 +104,7 @@ function SQLshowTable()
 
 function SQLsearchTable($tableName)
 {
+  $tableName = encodeString($tableName);
   return SQL("show tables like '{$tableName}'");
 }
 
@@ -116,6 +131,7 @@ function SQLcreateTable($tableName, $array)
   }
   $array_word = '';
   foreach ($array as $key => $val) {
+    $val = encodeString($val);
     $array_word = $array_word . $key . ' ' . $val . ',';
   }
   $array_word = mb_substr($array_word, 0, -1);
@@ -142,6 +158,7 @@ function SQLinsert($table, $array)
   $values = '';
   foreach ($array as $key => $val) {
     $keys = $keys . $key . ',';
+    $val = encodeString($val);
     $values = $values . '"' . $val . '"' . ',';
   }
   $keys = mb_substr($keys, 0, -1);
@@ -164,10 +181,12 @@ function SQLupdateEx($table, $updateKey, $updateValue, $key, $value, $func)
 {
   $useValue = $value;
   if (is_string($value)) {
+    $value = encodeString($value);
     $useValue = "'{$value}'";
   }
   $useUpdateValue = $updateValue;
   if (is_string($updateValue)) {
+    $useUpdateValue = encodeString($useUpdateValue);
     $useUpdateValue = "'{$updateValue}'";
   }
   if (!$updateValue) {
@@ -217,12 +236,14 @@ function SQLupdate($table, $updateKey, $updateValue, $key, $value)
  */
 function SQLfindSome($table, $array)
 {
+  $table = encodeString($table);
   $words = "select * from {$table} where ";
   foreach ($array as $obj) {
     $key = $obj['key'];
     $val = $obj['value'];
     $func = $obj['func'];
     if (is_string($val)) {
+      $val = encodeString($val);
       $val = "'{$val}'";
     }
     $words = "{$words}{$key}{$func} {$val} and ";
@@ -257,12 +278,14 @@ function SQLfindSome($table, $array)
  */
 function SQLfindSomeAll($table, $array)
 {
+  $table = encodeString($table);
   $words = "select * from {$table} where ";
   foreach ($array as $obj) {
     $key = $obj['key'];
     $val = $obj['value'];
     $func = $obj['func'];
     if (is_string($val)) {
+      $val = encodeString($val);
       $val = "'{$val}'";
     }
     $words = "{$words}{$key}{$func} {$val} and ";
@@ -285,6 +308,7 @@ function SQLfindEx($table, $key, $value, $func)
 {
   $useValue = $value;
   if (is_string($value)) {
+    $value = encodeString($value);
     $useValue = "'{$value}'";
   }
   return SQL("select * from {$table} where {$key}{$func}{$useValue}");
@@ -304,6 +328,7 @@ function SQLfindExAll($table, $key, $value, $func)
 {
   $useValue = $value;
   if (is_string($value)) {
+    $value = encodeString($value);
     $useValue = "'{$value}'";
   }
   return SQLfetchAll("select * from {$table} where {$key}{$func}{$useValue}");
@@ -370,6 +395,8 @@ function SQLmakeRandomId($table, $key, $length = 16)
  */
 function SQLjoin($baseTable, $joinTable, $baseKey, $joinKey, $where = null)
 {
+  $baseTable = encodeString($baseTable);
+  $joinTable = encodeString($joinTable);
   $sql = "select * from {$baseTable} left join {$joinTable} on {$baseKey} = {$joinKey}";
   if ($where) {
     $sql = "{$sql} where {$where}";
@@ -390,6 +417,7 @@ function SQLjoin($baseTable, $joinTable, $baseKey, $joinKey, $where = null)
 function SQLdeleteFull($table, $key, $value)
 {
   if (is_string($value)) {
+    $value = encodeString($value);
     $value = "'{$value}'";
   }
   return SQL("delete from {$table} where {$key} = {$value}");
@@ -407,6 +435,7 @@ function SQLdeleteFull($table, $key, $value)
 function SQLdelete($table, $key, $value)
 {
   if (is_string($value)) {
+    $value = encodeString($value);
     $value = "'{$value}'";
   }
   return SQL("delete from {$table} where {$key} = {$value} limit 1");
@@ -445,6 +474,7 @@ function SQLdeleteSome($table, $array, $limit = 1)
     $val = $obj['value'];
     $func = $obj['func'];
     if (is_string($val)) {
+      $val = encodeString($val);
       $val = "'{$val}'";
     }
     $words = "{$words}{$key}{$func} {$val} and ";
