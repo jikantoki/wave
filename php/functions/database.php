@@ -218,6 +218,7 @@ function SQLupdate($table, $updateKey, $updateValue, $key, $value)
 function SQLfindSome($table, $array)
 {
   $words = `select * from {$table} where `;
+  echo 'あ';
   echo $words;
   foreach ($array as $obj) {
     $key = $obj['key'];
