@@ -9,7 +9,10 @@
           ) ポスト
       .v-card-main
         .account-image
-          img(v-if="userStore && userStore.profile && userStore.profile.icon" :src="userStore.profile.icon")
+          img(
+            v-if="userStore && userStore.profile && userStore.profile.icon"
+            :src="userStore.profile.icon"
+            )
           img(v-else src="/account_default.jpg")
         .post-main
           .post-textarea.py-4.px-2(
@@ -62,19 +65,18 @@ export default {
   methods: {
     closePostForm() {
       this.$emit('close')
-      if (this.editorData) {
-        //フォームを閉じていいのか確認！
-      }
+      const string = this.noSpaceAndEnter(this.noBrTag(this.editorData))
+      console.log(string)
     },
     async postMessage() {
-      if (!this.editorData) {
-        return false
-      }
       if (
         this.noSpaceAndEnter(this.editorData) &&
         this.noBrTag(this.editorData)
       ) {
         console.log('post!')
+        return true
+      } else {
+        return false
       }
     },
     noSpaceAndEnter(string) {
@@ -99,6 +101,9 @@ export default {
         return false
       }
       const str1 = this.noSpaceAndEnter(string)
+      if (!str1) {
+        return false
+      }
       const str2 = str1.replaceAll('<br>', '')
       if (str2 === '') {
         return false
