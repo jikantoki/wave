@@ -80,7 +80,7 @@ function SQLfetchAll($sql)
 
 function SQLselectTable($tableName)
 {
-  return SQL(`select * from {$tableName}`);
+  return SQL("select * from {$tableName}");
 }
 
 function SQLshowTable()
@@ -90,7 +90,7 @@ function SQLshowTable()
 
 function SQLsearchTable($tableName)
 {
-  return SQL(`show tables like '{$tableName}'`);
+  return SQL("show tables like '{$tableName}'");
 }
 
 /**
@@ -119,7 +119,7 @@ function SQLcreateTable($tableName, $array)
     $array_word = $array_word . $key . ' ' . $val . ',';
   }
   $array_word = mb_substr($array_word, 0, -1);
-  return SQL(`create table {$tableName} ({$array_word})`);
+  return SQL("create table {$tableName} ({$array_word})");
 }
 
 /**
@@ -146,7 +146,7 @@ function SQLinsert($table, $array)
   }
   $keys = mb_substr($keys, 0, -1);
   $values = mb_substr($values, 0, -1);
-  return SQL(`insert into {$table} ({$keys}) values ({$values})`);
+  return SQL("insert into {$table} ({$keys}) values ({$values})");
 }
 
 /**
@@ -164,16 +164,16 @@ function SQLupdateEx($table, $updateKey, $updateValue, $key, $value, $func)
 {
   $useValue = $value;
   if (is_string($value)) {
-    $useValue = `'{$value}'`;
+    $useValue = "'{$value}'";
   }
   $useUpdateValue = $updateValue;
   if (is_string($updateValue)) {
-    $useUpdateValue = `'{$updateValue}'`;
+    $useUpdateValue = "'{$updateValue}'";
   }
   if (!$updateValue) {
     $useUpdateValue = 'null';
   }
-  return SQL(`update {$table} set {$updateKey}={$useUpdateValue} where {$key}{$func}{$useValue}`);
+  return SQL("update {$table} set {$updateKey}={$useUpdateValue} where {$key}{$func}{$useValue}");
 }
 
 /**
@@ -217,7 +217,7 @@ function SQLupdate($table, $updateKey, $updateValue, $key, $value)
  */
 function SQLfindSome($table, $array)
 {
-  $words = `select * from {$table} where `;
+  $words = "select * from {$table} where ";
   echo 'あ';
   echo $words;
   foreach ($array as $obj) {
@@ -225,9 +225,9 @@ function SQLfindSome($table, $array)
     $val = $obj['value'];
     $func = $obj['func'];
     if (is_string($val)) {
-      $val = `'{$val}'`;
+      $val = "'{$val}'";
     }
-    $words = `{$words}{$key}{$func} {$val} and `;
+    $words = "{$words}{$key}{$func} {$val} and ";
   }
   $words = substr($words, 0, -4);
   return SQL($words);
@@ -259,15 +259,15 @@ function SQLfindSome($table, $array)
  */
 function SQLfindSomeAll($table, $array)
 {
-  $words = `select * from {$table} where `;
+  $words = "select * from {$table} where ";
   foreach ($array as $obj) {
     $key = $obj['key'];
     $val = $obj['value'];
     $func = $obj['func'];
     if (is_string($val)) {
-      $val = `'{$val}'`;
+      $val = "'{$val}'";
     }
-    $words = `{$words}{$key}{$func} {$val} and `;
+    $words = "{$words}{$key}{$func} {$val} and ";
   }
   $words = substr($words, 0, -4);
   return SQLfetchAll($words);
@@ -287,9 +287,9 @@ function SQLfindEx($table, $key, $value, $func)
 {
   $useValue = $value;
   if (is_string($value)) {
-    $useValue = `'{$value}'`;
+    $useValue = "'{$value}'";
   }
-  return SQL(`select * from {$table} where {$key}{$func}{$useValue}`);
+  return SQL("select * from {$table} where {$key}{$func}{$useValue}");
 }
 
 /**
@@ -306,9 +306,9 @@ function SQLfindExAll($table, $key, $value, $func)
 {
   $useValue = $value;
   if (is_string($value)) {
-    $useValue = `'{$value}'`;
+    $useValue = "'{$value}'";
   }
-  return SQLfetchAll(`select * from {$table} where {$key}{$func}{$useValue}`);
+  return SQLfetchAll("select * from {$table} where {$key}{$func}{$useValue}");
 }
 
 /**
@@ -372,9 +372,9 @@ function SQLmakeRandomId($table, $key, $length = 16)
  */
 function SQLjoin($baseTable, $joinTable, $baseKey, $joinKey, $where = null)
 {
-  $sql = `select * from {$baseTable} left join {$joinTable} on {$baseKey} = {$joinKey}`;
+  $sql = "select * from {$baseTable} left join {$joinTable} on {$baseKey} = {$joinKey}";
   if ($where) {
-    $sql = `{$sql} where {$where}`;
+    $sql = "{$sql} where {$where}";
   }
   return SQL($sql);
 }
@@ -392,9 +392,9 @@ function SQLjoin($baseTable, $joinTable, $baseKey, $joinKey, $where = null)
 function SQLdeleteFull($table, $key, $value)
 {
   if (is_string($value)) {
-    $value = `'{$value}'`;
+    $value = "'{$value}'";
   }
-  return SQL(`delete from {$table} where {$key} = {$value}`);
+  return SQL("delete from {$table} where {$key} = {$value}");
 }
 
 /**
@@ -409,9 +409,9 @@ function SQLdeleteFull($table, $key, $value)
 function SQLdelete($table, $key, $value)
 {
   if (is_string($value)) {
-    $value = `'{$value}'`;
+    $value = "'{$value}'";
   }
-  return SQL(`delete from {$table} where {$key} = {$value} limit 1`);
+  return SQL("delete from {$table} where {$key} = {$value} limit 1");
 }
 
 /**
@@ -441,18 +441,18 @@ function SQLdelete($table, $key, $value)
  */
 function SQLdeleteSome($table, $array, $limit = 1)
 {
-  $words = `delete from {$table} where `;
+  $words = "delete from {$table} where ";
   foreach ($array as $obj) {
     $key = $obj['key'];
     $val = $obj['value'];
     $func = $obj['func'];
     if (is_string($val)) {
-      $val = `'{$val}'`;
+      $val = "'{$val}'";
     }
-    $words = `{$words}{$key}{$func} {$val} and `;
+    $words = "{$words}{$key}{$func} {$val} and ";
   }
   $words = substr($words, 0, -4);
-  $words = `{$words} limit {$limit}`;
+  $words = "{$words} limit {$limit}";
   return SQL($words);
 }
 
