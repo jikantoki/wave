@@ -283,6 +283,7 @@ export default {
         token: this.userStore.userToken,
       })
         .then((e) => {
+          console.log(e)
           if (e.body && e.body.status && e.body.status === 'ng') {
             this.userStore.setToken(null)
             this.userStore.setId(null)
