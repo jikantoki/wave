@@ -80,7 +80,7 @@ function SQLfetchAll($sql)
 
 function SQLselectTable($tableName)
 {
-  return SQL('select * from ' . $tableName);
+  return SQL(`select * from {$tableName}`);
 }
 
 function SQLshowTable()
@@ -90,7 +90,7 @@ function SQLshowTable()
 
 function SQLsearchTable($tableName)
 {
-  return SQL('show tables like "' . $tableName . '"');
+  return SQL(`show tables like '{$tableName}'`);
 }
 
 /**
@@ -119,7 +119,7 @@ function SQLcreateTable($tableName, $array)
     $array_word = $array_word . $key . ' ' . $val . ',';
   }
   $array_word = mb_substr($array_word, 0, -1);
-  return SQL('create table ' . $tableName . ' (' . $array_word . ')');
+  return SQL(`create table {$tableName} ({$array_word})`);
 }
 
 /**
@@ -146,7 +146,7 @@ function SQLinsert($table, $array)
   }
   $keys = mb_substr($keys, 0, -1);
   $values = mb_substr($values, 0, -1);
-  return SQL('insert into ' . $table . ' (' . $keys . ') values (' . $values . ')');
+  return SQL(`insert into {$table} ({$keys}) values ({$values})`);
 }
 
 /**
@@ -164,16 +164,16 @@ function SQLupdateEx($table, $updateKey, $updateValue, $key, $value, $func)
 {
   $useValue = $value;
   if (is_string($value)) {
-    $useValue = '"' . $value . '"';
+    $useValue = `'{$value}'`;
   }
   $useUpdateValue = $updateValue;
   if (is_string($updateValue)) {
-    $useUpdateValue = '"' . $updateValue . '"';
+    $useUpdateValue = `'{$updateValue}'`;
   }
   if (!$updateValue) {
     $useUpdateValue = 'null';
   }
-  return SQL('update ' . $table . ' set ' . $updateKey . '=' . $useUpdateValue . ' where ' . $key . $func . $useValue);
+  return SQL(`update {$table} set {$updateKey}={$useUpdateValue} where {$key}{$func}{$useValue}`);
 }
 
 /**
@@ -217,15 +217,15 @@ function SQLupdate($table, $updateKey, $updateValue, $key, $value)
  */
 function SQLfindSome($table, $array)
 {
-  $words = 'select * from ' . $table . ' where ';
+  $words = `select * from {$table} where `;
   foreach ($array as $obj) {
     $key = $obj['key'];
     $val = $obj['value'];
     $func = $obj['func'];
     if (is_string($val)) {
-      $val = '"' . $val . '"';
+      $val = `'{$val}'`;
     }
-    $words = $words . $key . $func . ' ' . $val . ' and ';
+    $words = `{$words}{$key}{$func} {$val} and `;
   }
   $words = substr($words, 0, -4);
   return SQL($words);
@@ -257,15 +257,15 @@ function SQLfindSome($table, $array)
  */
 function SQLfindSomeAll($table, $array)
 {
-  $words = 'select * from ' . $table . ' where ';
+  $words = `select * from {$table} where `;
   foreach ($array as $obj) {
     $key = $obj['key'];
     $val = $obj['value'];
     $func = $obj['func'];
     if (is_string($val)) {
-      $val = '"' . $val . '"';
+      $val = `'{$val}'`;
     }
-    $words = $words . $key . $func . ' ' . $val . ' and ';
+    $words = `{$words}{$key}{$func} {$val} and `;
   }
   $words = substr($words, 0, -4);
   return SQLfetchAll($words);
@@ -285,9 +285,9 @@ function SQLfindEx($table, $key, $value, $func)
 {
   $useValue = $value;
   if (is_string($value)) {
-    $useValue = '"' . $value . '"';
+    $useValue = `'{$value}'`;
   }
-  return SQL('select * from ' . $table . ' where ' . $key . $func . $useValue);
+  return SQL(`select * from {$table} where {$key}{$func}{$useValue}`);
 }
 
 /**
@@ -304,9 +304,9 @@ function SQLfindExAll($table, $key, $value, $func)
 {
   $useValue = $value;
   if (is_string($value)) {
-    $useValue = '"' . $value . '"';
+    $useValue = `'{$value}'`;
   }
-  return SQLfetchAll('select * from ' . $table . ' where ' . $key . $func . $useValue);
+  return SQLfetchAll(`select * from {$table} where {$key}{$func}{$useValue}`);
 }
 
 /**
@@ -340,15 +340,16 @@ function SQLfindAll($table, $key, $value)
 /**
  * テーブルの任意の列で未使用なダンダム英数字16文字以上を吐き出す
  *
- * @param [type] $table 使いたいテーブル
- * @param [type] $key IDを登録する列
+ * @param string $table 使いたいテーブル
+ * @param string $key IDを登録する列
+ * @param int $length 文字の長さ、デフォ16
  * @return string 未使用なID
  */
-function SQLmakeRandomId($table, $key)
+function SQLmakeRandomId($table, $key, $length = 16)
 {
   $breakFlag = 0;
   do {
-    $random = randomString(16) . time();
+    $random = randomString($length) . time();
     $response = SQLfind($table, $key, $random);
     if (!$response) {
       $breakFlag = 1;
@@ -369,9 +370,9 @@ function SQLmakeRandomId($table, $key)
  */
 function SQLjoin($baseTable, $joinTable, $baseKey, $joinKey, $where = null)
 {
-  $sql = 'select * from ' . $baseTable . ' left join ' . $joinTable . ' on ' . $baseKey . ' = ' . $joinKey;
+  $sql = `select * from {$baseTable} left join {$joinTable} on {$baseKey} = {$joinKey}`;
   if ($where) {
-    $sql = $sql . ' where ' . $where;
+    $sql = `{$sql} where {$where}`;
   }
   return SQL($sql);
 }
@@ -389,9 +390,9 @@ function SQLjoin($baseTable, $joinTable, $baseKey, $joinKey, $where = null)
 function SQLdeleteFull($table, $key, $value)
 {
   if (is_string($value)) {
-    $value = '"' . $value . '"';
+    $value = `'{$value}'`;
   }
-  return SQL('delete from ' . $table . ' where ' . $key . ' = ' . $value);
+  return SQL(`delete from {$table} where {$key} = {$value}`);
 }
 
 /**
@@ -406,9 +407,9 @@ function SQLdeleteFull($table, $key, $value)
 function SQLdelete($table, $key, $value)
 {
   if (is_string($value)) {
-    $value = '"' . $value . '"';
+    $value = `'{$value}'`;
   }
-  return SQL('delete from ' . $table . ' where ' . $key . ' = ' . $value . 'limit 1');
+  return SQL(`delete from {$table} where {$key} = {$value} limit 1`);
 }
 
 /**
@@ -438,18 +439,18 @@ function SQLdelete($table, $key, $value)
  */
 function SQLdeleteSome($table, $array, $limit = 1)
 {
-  $words = 'delete from ' . $table . ' where ';
+  $words = `delete from {$table} where `;
   foreach ($array as $obj) {
     $key = $obj['key'];
     $val = $obj['value'];
     $func = $obj['func'];
     if (is_string($val)) {
-      $val = '"' . $val . '"';
+      $val = `'{$val}'`;
     }
-    $words = $words . $key . $func . ' ' . $val . ' and ';
+    $words = `{$words}{$key}{$func} {$val} and `;
   }
   $words = substr($words, 0, -4);
-  $words = $words . ' limit ' . $limit;
+  $words = `{$words} limit {$limit}`;
   return SQL($words);
 }
 
@@ -736,4 +737,41 @@ function secretIdToMailAddress($secretId)
 function getProfile($id)
 {
   return SQLfind('USER_PROFILE_VIEW', 'userId', $id);
+}
+
+/**
+ * メッセージを送信してDBに登録
+ *
+ * @param string $secretId シークレットID
+ * @param string $message 本文
+ * @param string $replyId リプライ先のpostId
+ * @param string $quoteId 引用先のpostId
+ * @param array $images 添付画像URLの配列
+ * @param string $sound 添付サウンドのURL
+ */
+function postMessage($secretId, $message, $replyId = null, $quoteId = null, $images = [], $sound = null)
+{
+  if (!$secretId || !$message) {
+    return false;
+  }
+  $imageText = '';
+  foreach ($images as $image) {
+    $imageText = $imageText . $image . ',';
+  }
+  $imageText = substr($imageText, 0, -1);
+  if ($imageText === '') {
+    $imageText = null;
+  }
+  $postId = SQLmakeRandomId('post_list', 'postId', 64);
+  SQLinsert('post_list', [
+    'postId' => $postId,
+    'secretId' => $secretId,
+    'message' => $message,
+    'createdAt' => time(),
+    'imageURLs' => $imageText,
+    'soundURL' => $sound,
+    'replyId' => $replyId,
+    'quoteId' => $quoteId
+  ]);
+  return $postId;
 }
