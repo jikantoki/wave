@@ -12,6 +12,8 @@ require_once DIR_ROOT . '/php/functions/database.php';
  */
 function authAPI($id, $token, $password)
 {
+  echo $id;
+  echo $token;
   $isFind = SQLfindSome('api_list', [
     [
       'key' => 'apiId',

@@ -228,7 +228,6 @@ function SQLfindSome($table, $array)
     $words = `{$words}{$key}{$func} {$val} and `;
   }
   $words = substr($words, 0, -4);
-  echo $words;
   return SQL($words);
 }
 
