@@ -163,7 +163,6 @@ function SQLinsert($table, $array)
   }
   $keys = mb_substr($keys, 0, -1);
   $values = mb_substr($values, 0, -1);
-  echo "insert into {$table} ({$keys}) values ({$values})";
   return SQL("insert into {$table} ({$keys}) values ({$values})");
 }
 
@@ -368,14 +367,14 @@ function SQLfindAll($table, $key, $value)
  *
  * @param string $table 使いたいテーブル
  * @param string $key IDを登録する列
- * @param int $length 文字の長さ、デフォ16
+ * @param int $length 文字の長さ、デフォ16（この数値から自動で10ｹﾀほど加算されます）
  * @return string 未使用なID
  */
 function SQLmakeRandomId($table, $key, $length = 16)
 {
   $breakFlag = 0;
   do {
-    $random = randomString($length) . time();
+    $random = randomString($length) . time(); //最後にunixtimeを文字列で加算している
     $response = SQLfind($table, $key, $random);
     if (!$response) {
       $breakFlag = 1;
