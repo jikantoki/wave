@@ -793,7 +793,7 @@ function postMessage($secretId, $message, $replyId = null, $quoteId = null, $ima
   if ($imageText === '') {
     $imageText = null;
   }
-  $postId = SQLmakeRandomId('post_list', 'postId', 32);
+  $postId = SQLmakeRandomId('post_list', 'postId', 16);
   SQLinsert('post_list', [
     'postId' => $postId,
     'secretId' => $secretId,
