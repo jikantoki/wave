@@ -21,4 +21,8 @@ export default {
       whatDoYouWantToSend: 'What do you want to send?',
     },
   },
+  postForm: {
+    whatsUp: 'Whatsup?',
+    post: 'Post',
+  },
 }

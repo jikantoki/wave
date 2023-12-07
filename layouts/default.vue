@@ -20,6 +20,13 @@
         :buttons="commonBarPushButtons"
         @clicked="pushFlow()"
         )
+      common-bar.is-not-mobile.is-not-pwa(
+        v-if="userStore && userStore.userId && !isDisplayCommonPushButtons && PWAinstallable"
+        title="アプリをインストール"
+        subTitle="ホーム画面にアプリを登録し、Waveをいつでも使えるようになります"
+        :buttons="installPWAbutton"
+        @clicked="installPWA"
+        )
       component-button(
         v-if="userStore && userStore.userId"
         icon="mdi-pencil"
@@ -100,6 +107,13 @@ export default {
           return: 'allowPush',
         },
       ],
+      installPWAbutton: [
+        {
+          title: 'インストールする',
+          return: 'installPWA',
+        },
+      ],
+      PWAinstallable: false,
       dialog: false,
       dialogTitle: null,
       dialogText: null,
@@ -152,6 +166,9 @@ export default {
       this.splash = false
       this.style = 'opacity: 1;'
     }, 1000)
+    window.addEventListener('beforeinstallprompt', () => {
+      this.PWAinstallable = true
+    })
   },
   /**
    * ページ離脱時にやりたい事
@@ -216,6 +233,7 @@ export default {
     postClose() {
       this.postForm = false
     },
+    installPWA() {},
   },
 }
 </script>
@@ -406,7 +424,7 @@ body {
       display: none;
     }
   }
-  /** モバイル用表示 */
+  /** PWA用表示 */
   .is-pwa {
     display: none;
     @include mq('pwa') {
@@ -415,7 +433,6 @@ body {
   }
   /** PWAじゃない場合に表示 */
   .is-not-pwa {
-    display: initial;
     @include mq('pwa') {
       display: none;
     }

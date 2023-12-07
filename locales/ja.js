@@ -21,4 +21,8 @@ export default {
       whatDoYouWantToSend: '送りたい通知内容を入力',
     },
   },
+  postForm: {
+    whatsUp: '今何してる？',
+    post: 'ポスト',
+  },
 }

@@ -6,7 +6,7 @@
         v-btn(icon="mdi-close" @click="closePostForm()").my-1.mx-0
         v-spacer
         v-btn.post-button(:disabled="postButtonDisabled" @click="postMessage()"
-          ) ポスト
+          ) {{ $t('postForm.post') }}
       .v-card-main
         .account-image
           img(
@@ -23,11 +23,11 @@
           )
           p.post-label.py-4.px-2(
             v-show="postButtonDisabled"
-          ) 今何してる？
+          )  {{ $t('postForm.whatsUp') }}
       v-card-actions.is-not-mobile
         v-spacer
         v-btn.post-button(:disabled="postButtonDisabled" @click="postMessage()"
-          ) ポスト
+          ) {{ $t('postForm.post') }}
 </template>
 
 <script>

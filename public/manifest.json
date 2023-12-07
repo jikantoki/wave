@@ -35,8 +35,8 @@
       "url": "/",
       "icons": [
         {
-          "src": "/img/favicon.ico",
-          "size": "32x32"
+          "src": "img/icon96.png",
+          "size": "96x96"
         }
       ]
     },
@@ -46,8 +46,8 @@
       "url": "/about",
       "icons": [
         {
-          "src": "/img/favicon.ico",
-          "size": "32x32"
+          "src": "img/icon96.png",
+          "size": "96x96"
         }
       ]
     }
