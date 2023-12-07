@@ -54,5 +54,6 @@ $res = postMessage($secretId, $message, $reply, $quote, $images, $sound);
 echo json_encode([
   'status' => 'ok',
   'reason' => 'thank you!',
-  'postId' => $res
+  'postId' => $res,
+  'message' => $message
 ]);

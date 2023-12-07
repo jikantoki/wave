@@ -74,6 +74,22 @@ export default {
         this.noBrTag(this.editorData)
       ) {
         console.log('post!')
+        this.sendAjaxWithAuth(
+          '/sendPostMessage.php',
+          {
+            id: this.userStore.userId,
+            token: this.userStore.userToken,
+          },
+          {
+            message: this.editorData,
+          },
+        )
+          .then((e) => {
+            console.log(e)
+          })
+          .catch((e) => {
+            console.log(e)
+          })
         return true
       } else {
         return false
