@@ -161,6 +161,7 @@ function SQLinsert($table, $array)
   foreach ($array as $key => $val) {
     $keys = $keys . $key . ',';
     if (is_string($val)) {
+      $val = encodeString($val);
       $values = "{$values} '{$val}',";
     } else if (!$val) {
       $values = "{$values} null,";
