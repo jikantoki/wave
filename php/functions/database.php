@@ -165,7 +165,7 @@ function SQLinsert($table, $array)
     } else if (!$val) {
       $values = "{$values} null,";
     } else {
-      $values = "{$values} {$val}";
+      $values = "{$values} {$val},";
     }
   }
   $keys = mb_substr($keys, 0, -1);
