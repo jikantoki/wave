@@ -806,7 +806,7 @@ function postMessage($secretId, $message, $replyId = null, $quoteId = null, $ima
     [
       'key' => 'createdAt',
       'value' => time(),
-      'func' => '='
+      'func' => '<'
     ],
     [
       'key' => 'replyId',
