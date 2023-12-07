@@ -824,7 +824,7 @@ function postMessage($secretId, $message, $replyId = null, $quoteId = null, $ima
     ],
     [
       'key' => 'message',
-      'value' => $message ? $message : '',
+      'value' => $message,
       'func' => '='
     ],
     [
@@ -835,22 +835,22 @@ function postMessage($secretId, $message, $replyId = null, $quoteId = null, $ima
     ],
     [
       'key' => 'replyId',
-      'value' => $replyId ? $replyId : '',
+      'value' => $replyId,
       'func' => '='
     ],
     [
       'key' => 'replyId',
-      'value' => $quoteId ? $quoteId : '',
+      'value' => $quoteId,
       'func' => '='
     ],
     [
       'key' => 'imageURLs',
-      'value' => $imageText ? $imageText : '',
+      'value' => $imageText,
       'func' => '='
     ],
     [
       'key' => 'soundURL',
-      'value' => $sound ? $sound : '',
+      'value' => $sound,
       'func' => '='
     ],
   ]);
