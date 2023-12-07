@@ -255,7 +255,8 @@ function SQLfindSome($table, $array)
       $val = encodeString($val);
       $val = "'{$val}'";
     } else if (!$val) {
-      $val = 'null';
+      $words = "{$words}{$key} is null and ";
+      continue;
     }
     $words = "{$words}{$key}{$func} {$val} and ";
   }
@@ -299,7 +300,8 @@ function SQLfindSomeAll($table, $array)
       $val = encodeString($val);
       $val = "'{$val}'";
     } else if (!$val) {
-      $val = 'null';
+      $words = "{$words}{$key} is null and ";
+      continue;
     }
     $words = "{$words}{$key}{$func} {$val} and ";
   }
@@ -324,7 +326,7 @@ function SQLfindEx($table, $key, $value, $func)
     $value = encodeString($value);
     $useValue = "'{$value}'";
   } else if (!$value) {
-    $useValue = 'null';
+    return SQL("select * from {$table} where {$key} is null");
   }
   return SQL("select * from {$table} where {$key}{$func}{$useValue}");
 }
@@ -346,7 +348,7 @@ function SQLfindExAll($table, $key, $value, $func)
     $value = encodeString($value);
     $useValue = "'{$value}'";
   } else if (!$value) {
-    $useValue = 'null';
+    return SQL("select * from {$table} where {$key} is null");
   }
   return SQLfetchAll("select * from {$table} where {$key}{$func}{$useValue}");
 }
