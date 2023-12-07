@@ -73,6 +73,8 @@ function SQLConnect()
  */
 function SQL($sql)
 {
+  echo $sql;
+  echo "\n";
   $pdo = SQLConnect();
   $stmt = $pdo->query($sql);
   return $stmt->fetch();
