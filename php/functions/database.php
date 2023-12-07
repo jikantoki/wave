@@ -158,8 +158,13 @@ function SQLinsert($table, $array)
   $values = '';
   foreach ($array as $key => $val) {
     $keys = $keys . $key . ',';
-    $val = encodeString($val);
-    $values = "{$values} '{$val}',";
+    if (is_string($val)) {
+      $values = "{$values} '{$val}',";
+    } else if (!$val) {
+      $values = "{$values} null,";
+    } else {
+      $values = "{$values} {$val}";
+    }
   }
   $keys = mb_substr($keys, 0, -1);
   $values = mb_substr($values, 0, -1);
@@ -183,6 +188,8 @@ function SQLupdateEx($table, $updateKey, $updateValue, $key, $value, $func)
   if (is_string($value)) {
     $value = encodeString($value);
     $useValue = "'{$value}'";
+  } else if (!$value) {
+    $useValue = 'null';
   }
   $useUpdateValue = $updateValue;
   if (is_string($updateValue)) {
@@ -245,6 +252,8 @@ function SQLfindSome($table, $array)
     if (is_string($val)) {
       $val = encodeString($val);
       $val = "'{$val}'";
+    } else if (!$val) {
+      $val = 'null';
     }
     $words = "{$words}{$key}{$func} {$val} and ";
   }
@@ -287,6 +296,8 @@ function SQLfindSomeAll($table, $array)
     if (is_string($val)) {
       $val = encodeString($val);
       $val = "'{$val}'";
+    } else if (!$val) {
+      $val = 'null';
     }
     $words = "{$words}{$key}{$func} {$val} and ";
   }
@@ -310,6 +321,8 @@ function SQLfindEx($table, $key, $value, $func)
   if (is_string($value)) {
     $value = encodeString($value);
     $useValue = "'{$value}'";
+  } else if (!$value) {
+    $useValue = 'null';
   }
   return SQL("select * from {$table} where {$key}{$func}{$useValue}");
 }
@@ -330,6 +343,8 @@ function SQLfindExAll($table, $key, $value, $func)
   if (is_string($value)) {
     $value = encodeString($value);
     $useValue = "'{$value}'";
+  } else if (!$value) {
+    $useValue = 'null';
   }
   return SQLfetchAll("select * from {$table} where {$key}{$func}{$useValue}");
 }
@@ -419,6 +434,8 @@ function SQLdeleteFull($table, $key, $value)
   if (is_string($value)) {
     $value = encodeString($value);
     $value = "'{$value}'";
+  } else if (!$value) {
+    $value = 'null';
   }
   return SQL("delete from {$table} where {$key} = {$value}");
 }
@@ -437,6 +454,8 @@ function SQLdelete($table, $key, $value)
   if (is_string($value)) {
     $value = encodeString($value);
     $value = "'{$value}'";
+  } else if (!$value) {
+    $value = 'null';
   }
   return SQL("delete from {$table} where {$key} = {$value} limit 1");
 }
@@ -476,6 +495,8 @@ function SQLdeleteSome($table, $array, $limit = 1)
     if (is_string($val)) {
       $val = encodeString($val);
       $val = "'{$val}'";
+    } else if (!$val) {
+      $val = 'null';
     }
     $words = "{$words}{$key}{$func} {$val} and ";
   }
