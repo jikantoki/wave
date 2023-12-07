@@ -159,10 +159,11 @@ function SQLinsert($table, $array)
   foreach ($array as $key => $val) {
     $keys = $keys . $key . ',';
     $val = encodeString($val);
-    $values = $values . '"' . $val . '"' . ',';
+    $values = "{$values} '{$val}',";
   }
   $keys = mb_substr($keys, 0, -1);
   $values = mb_substr($values, 0, -1);
+  echo "insert into {$table} ({$keys}) values ({$values})";
   return SQL("insert into {$table} ({$keys}) values ({$values})");
 }
 
