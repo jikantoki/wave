@@ -51,9 +51,17 @@ if (isset($_POST['quote']) && $_POST['quote'] !== '') {
 }
 $res = postMessage($secretId, $message, $reply, $quote, $images, $sound);
 
-echo json_encode([
-  'status' => 'ok',
-  'reason' => 'thank you!',
-  'postId' => $res,
-  'message' => $message
-]);
+if ($res) {
+  echo json_encode([
+    'status' => 'ok',
+    'reason' => 'thank you!',
+    'postId' => $res,
+    'message' => $message
+  ]);
+} else {
+  echo json_encode([
+    'status' => 'already',
+    'reason' => 'already send post',
+    'errCode' => 100
+  ]);
+}

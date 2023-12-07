@@ -778,6 +778,7 @@ function getProfile($id)
  * @param string $quoteId 引用先のpostId
  * @param array $images 添付画像URLの配列
  * @param string $sound 添付サウンドのURL
+ * @return mixed false→認証不可能、null→二重送信、$postId→成功
  */
 function postMessage($secretId, $message, $replyId = null, $quoteId = null, $images = [], $sound = null)
 {
@@ -829,7 +830,9 @@ function postMessage($secretId, $message, $replyId = null, $quoteId = null, $ima
       'func' => '='
     ],
   ]);
-  var_dump($find);
+  if (count($find) !== 0) {
+    return null;
+  }
   $postId = SQLmakeRandomId('post_list', 'postId', 16);
   SQLinsert('post_list', [
     'postId' => $postId,
