@@ -854,6 +854,7 @@ function postMessage($secretId, $message, $replyId = null, $quoteId = null, $ima
       'func' => '='
     ],
   ]);
+  var_dump($find);
   if (count($find) !== 0) {
     return null;
   }
