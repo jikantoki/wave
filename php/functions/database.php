@@ -11,7 +11,7 @@ function encodeString($string)
   if (!is_string($string)) {
     return $string;
   }
-  return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+  return htmlspecialchars($string, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 }
 /**
  * ランダムな一文字を生成
