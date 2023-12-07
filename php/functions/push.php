@@ -38,6 +38,9 @@ function sendPush($endPoint, $publickey, $authToken, $title, $message = '', $ima
   } else {
     $image = null;
   }
+  if (!$icon || $icon === '') {
+    $icon = WebPush_icon;
+  }
 
   // push通知認証用のデータ
   $subscription = Subscription::create([

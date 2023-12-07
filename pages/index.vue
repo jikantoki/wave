@@ -129,7 +129,7 @@ export default {
         {
           message: this.notificationText,
           title: 'て～～～すと🤓',
-          icon: 'https://nuxt.enoki.xyz/img/icon192.png',
+          icon: 'https://wave.enoki.xyz/img/icon192.png',
         },
       )
       this.dialogTitle = '通知を送信しました'
