@@ -831,7 +831,7 @@ function postMessage($secretId, $message, $replyId = null, $quoteId = null, $ima
       'key' => 'createdAt',
       /** 過去3時間で同じ投稿をしていないか確認 */
       'value' => time() - (60 * 60 * 3),
-      'func' => '>'
+      'func' => '!='
     ],
     [
       'key' => 'replyId',
