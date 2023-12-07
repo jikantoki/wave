@@ -20,7 +20,7 @@
         :buttons="commonBarPushButtons"
         @clicked="pushFlow()"
         )
-      common-bar.is-not-mobile.is-not-pwa(
+      //common-bar.is-mobile.is-not-pwa(
         v-if="userStore && userStore.userId && !isDisplayCommonPushButtons && PWAinstallable"
         title="アプリをインストール"
         subTitle="ホーム画面にアプリを登録し、Waveをいつでも使えるようになります"
