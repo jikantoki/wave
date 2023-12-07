@@ -829,7 +829,7 @@ function postMessage($secretId, $message, $replyId = null, $quoteId = null, $ima
       'func' => '='
     ],
   ]);
-  echo $find;
+  var_dump($find);
   $postId = SQLmakeRandomId('post_list', 'postId', 16);
   SQLinsert('post_list', [
     'postId' => $postId,
