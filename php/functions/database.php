@@ -792,6 +792,44 @@ function postMessage($secretId, $message, $replyId = null, $quoteId = null, $ima
   if ($imageText === '') {
     $imageText = null;
   }
+  $find = SQLfindSomeAll('post_list', [
+    [
+      'key' => 'secretId',
+      'value' => $secretId,
+      'func' => '='
+    ],
+    [
+      'key' => 'message',
+      'value' => $message ? $message : '',
+      'func' => '='
+    ],
+    [
+      'key' => 'createdAt',
+      'value' => time(),
+      'func' => '='
+    ],
+    [
+      'key' => 'replyId',
+      'value' => $replyId ? $replyId : '',
+      'func' => '='
+    ],
+    [
+      'key' => 'replyId',
+      'value' => $quoteId ? $quoteId : '',
+      'func' => '='
+    ],
+    [
+      'key' => 'imageURLs',
+      'value' => $imageText ? $imageText : '',
+      'func' => '='
+    ],
+    [
+      'key' => 'soundURL',
+      'value' => $sound ? $sound : '',
+      'func' => '='
+    ],
+  ]);
+  echo $find;
   $postId = SQLmakeRandomId('post_list', 'postId', 16);
   SQLinsert('post_list', [
     'postId' => $postId,
