@@ -2,6 +2,14 @@
 .index-page
   .wrap
     v-card.content(elevation="4")
+      .post-detail(
+        v-for="post, key of postList"
+        )
+        ComponentPostDetail(
+          :post="post"
+          )
+  .wrap
+    v-card.content(elevation="4")
       .text-h1
         span Wave {{ PackageJson.version }}
         img.ontext(src="~/assets/logo.png")
@@ -78,9 +86,12 @@ import mixins from '~/mixins/mixins'
 import webpush from '~/js/webpush'
 import metaFunctions from '~/js/metaFunctions'
 import Setup from '~/js/setup'
+import ComponentPostDetail from '~/components/componentPostDetail.vue'
 export default {
   name: 'index',
-  components: {},
+  components: {
+    ComponentPostDetail: ComponentPostDetail,
+  },
   mixins: [mixins],
   setup() {
     //サーバーサイドで仮のタイトルを設定、mountedで言語ごとに再設定する
@@ -95,12 +106,22 @@ export default {
       dialogText: null,
       dialogActions: null,
       counter: useCounterStore(),
+      postList: [],
     }
   },
   async mounted() {
     this.setTitle(this.$t('index.title'))
     const allpost = await this.sendAjaxWithAuth('/getAllPost.php')
-    console.log(allpost)
+    if (allpost.body && allpost.body.res) {
+      await allpost.body.res.map((post) => {
+        console.log(post)
+        const returnPost = {
+          ...post,
+          message: this.decodeEntity(post.postMessage),
+        }
+        this.postList.push(returnPost)
+      })
+    }
   },
   methods: {
     async pushForMe() {

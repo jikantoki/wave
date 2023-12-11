@@ -288,6 +288,12 @@ export default {
     isObject(obj) {
       return obj instanceof Object && !(obj instanceof Array) ? true : false
     },
+    /** HTMLの特殊文字をデコード（危険性あり！） */
+    decodeEntity(inputStr) {
+      var textarea = document.createElement('textarea')
+      textarea.innerHTML = inputStr
+      return textarea.value
+    },
 
     //ここからは優先度低いやつ
 
