@@ -9,7 +9,6 @@
       .text-h6 {{ $t('index.nuxtSampleProject') }}
       .btns
         v-btn(@click="pushForMe()") {{ $t('index.buttons.notificationTest') }}
-        //v-btn.is-not-pwa(@click="download('/download/wave.apk','wave.apk')") Download APK
         v-btn(@click="a('https://github.com/jikantoki/wave')") Github
         v-btn(@click="createPopup()") {{ $t('index.buttons.popup') }}
       .input-area
@@ -100,6 +99,8 @@ export default {
   },
   async mounted() {
     this.setTitle(this.$t('index.title'))
+    const allpost = await this.sendAjaxWithAuth('/getAllPost.php')
+    console.log(allpost)
   },
   methods: {
     async pushForMe() {
