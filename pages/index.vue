@@ -114,7 +114,6 @@ export default {
     const allpost = await this.sendAjaxWithAuth('/getAllPost.php')
     if (allpost.body && allpost.body.res) {
       await allpost.body.res.map((post) => {
-        console.log(post)
         const returnPost = {
           ...post,
           message: this.decodeEntity(post.postMessage),
