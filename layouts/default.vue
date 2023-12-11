@@ -7,6 +7,8 @@
     v-main#main
       .center.main-content
         router-view
+      footer.pa-16.footer
+        common-footer
       common-bar(
         v-if="!userStore || !userStore.userId"
         title="ログインして、もっと便利に"
@@ -32,8 +34,6 @@
         icon="mdi-pencil"
         @clicked="postForm = true"
         )
-      footer.pa-16.footer
-        common-footer
   ComponentPostForm(
     @close="postClose()"
     v-if="postForm"
@@ -61,8 +61,8 @@ import commonFooter from '~/components/common/commonFooter'
 import mixins from '~/mixins/mixins'
 import webpush from '~/js/webpush'
 import splash from '~/components/common/commonSplash'
-import commonBar from '~/components/common/commonBar.vue'
-import ComponentPostForm from '~/components/componentPostForm.vue'
+import commonBar from '~/components/common/commonBar'
+import ComponentPostForm from '~/components/componentPostForm'
 
 export default {
   /**
