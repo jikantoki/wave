@@ -855,7 +855,6 @@ function postMessage($secretId, $message, $replyId = null, $quoteId = null, $ima
       'func' => '='
     ],
   ]);
-  var_dump($find);
   if (count($find) !== 0) {
     return null;
   }
@@ -871,4 +870,9 @@ function postMessage($secretId, $message, $replyId = null, $quoteId = null, $ima
     'quoteId' => $quoteId
   ]);
   return $postId;
+}
+
+function getPost($postId)
+{
+  return SQLfind('USER_POST_VIEW', 'postId', $postId);
 }
