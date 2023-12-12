@@ -2,8 +2,8 @@
 //v-ripple動的変更が今のところ不可
 .component-post-detail.pt-1(
   :v-ripple="!clickable"
-  @click.stop="a(`/post/${postForDisplay.postId}`)"
-  @click.middle.stop="a(`/post/${postForDisplay.postId}`,true)"
+  @click.stop="ass"
+  @click.middle.stop="asst"
   )
   .component-post-wrap
     .icon
@@ -31,22 +31,26 @@
           ) @{{ postForDisplay.userId }}
         a.time {{ postForDisplay.createdAt }}
       .message.px-2(v-html="postForDisplay.message" @click="checkClickElement")
-  .action-buttons(@click.stop)
+  .action-buttons
     v-btn(
       size="small"
       icon="mdi-heart-outline"
+      @click.stop
       )
     v-btn(
       size="small"
       icon="mdi-repeat-variant"
+      @click.stop
       )
     v-btn(
       size="small"
       icon="mdi-message-reply-outline"
+      @click.stop
       )
     v-btn(
       size="small"
       icon="mdi-dots-vertical"
+      @click.stop
       )
   .hr
 </template>
@@ -113,7 +117,21 @@ export default {
       if (e && e.target.tagName === 'A') {
         e.stopPropagation()
       }
-      console.log(e.target.tagName)
+    },
+    ass(e) {
+      if (e && (e.target.tagName === 'A' || e.target.tagName === 'IMG')) {
+      } else {
+        this.a(`/post/${this.postForDisplay.postId}`)
+      }
+      e.stopPropagation()
+    },
+    asst(e) {
+      if (e && (e.target.tagName === 'A' || e.target.tagName === 'IMG')) {
+      } else {
+        this.a(`/post/${this.postForDisplay.postId}`, true)
+      }
+      e.preventDefault()
+      e.stopPropagation()
     },
   },
 }
@@ -122,9 +140,9 @@ export default {
 <style lang="scss">
 //v-htmlを使う関係でscoped禁止
 .component-post-detail {
+  cursor: pointer;
   .component-post-wrap {
     display: flex;
-    cursor: pointer;
     .icon {
       .account-icon {
         width: 32px;

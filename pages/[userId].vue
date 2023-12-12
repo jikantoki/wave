@@ -85,6 +85,7 @@ export default {
       )
         .then((e) => {
           this.successMessage = true
+          console.log(e)
           return true
         })
         .catch((e) => {
