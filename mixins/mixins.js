@@ -104,10 +104,11 @@ export default {
      * <p>aタグと同じ動きをするし、pjaxになる</p>
      * <p>外部URLの場合、新しいタブで開く</p>
      * @param {string} url 転送したいURL（ルートからのパス）
+     * @param {string} isNewTab trueなら絶対に新規タブ
      * @returns {int} 内部リンクなら0、外部ドメインなら1
      */
-    a(url) {
-      if (url.slice(0, 4) === 'http') {
+    a(url, isNewTab = false) {
+      if (url.slice(0, 4) === 'http' || isNewTab) {
         window.open(url, '_blank')
         return 1
       } else {

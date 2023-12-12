@@ -4,6 +4,8 @@
     v-card.content(elevation="4")
       .post-detail(
         v-for="post, key of postList"
+        @click="a(`/post/${post.postId}`)"
+        @click.middle="a(`/post/${post.postId}`,true)"
         )
         ComponentPostDetail(
           :post="post"
