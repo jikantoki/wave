@@ -3,6 +3,7 @@
   ComponentPostDetail(
     v-if="postData"
     :post="postData"
+    clickable=false
     )
 </template>
 
@@ -22,8 +23,19 @@ export default {
   async mounted() {
     const params = this.$route.params
     this.postId = params.postId
-    const post = await this.sendAjaxWithAuth('/getPost.php')
-    this.postData = post.body.res
+    const post = await this.sendAjaxWithAuth('/getPost.php', {
+      postId: this.postId,
+    })
+    if (post && post.body.status === 'ok') {
+      const returnPost = {
+        ...post.body.res,
+        message: this.decodeEntity(post.body.res.postMessage),
+      }
+      console.log(returnPost)
+      this.postData = returnPost
+    } else {
+      //404
+    }
   },
   data() {
     return {

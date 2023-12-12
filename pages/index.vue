@@ -4,8 +4,6 @@
     v-card.content(elevation="4")
       .post-detail(
         v-for="post, key of postList"
-        @click="a(`/post/${post.postId}`)"
-        @click.middle="a(`/post/${post.postId}`,true)"
         )
         ComponentPostDetail(
           :post="post"
@@ -116,11 +114,7 @@ export default {
     const allpost = await this.sendAjaxWithAuth('/getAllPost.php')
     if (allpost.body && allpost.body.res) {
       await allpost.body.res.map((post) => {
-        const returnPost = {
-          ...post,
-          message: this.decodeEntity(post.postMessage),
-        }
-        this.postList.push(returnPost)
+        this.postList.push(post)
       })
     }
   },

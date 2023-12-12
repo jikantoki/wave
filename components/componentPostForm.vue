@@ -128,7 +128,11 @@ export default {
     },
     changeTextArea(ref) {
       const text = ref.innerHTML
-      this.editorData = text
+      const linked = this.encodeLink(text)
+      if (text !== linked && linked) {
+        ref.innerHTML = linked
+      }
+      this.editorData = linked
     },
     checkCtrlPlusEnter(keyboardEvent) {
       if (
@@ -138,6 +142,26 @@ export default {
         return false
       }
       this.postMessage()
+    },
+    encodeLink(str) {
+      if (!str) {
+        return false
+      }
+      const regexp_url =
+        /(https?|ftp):\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#\u3001-\u30FE\u4E00-\u9FA0\uFF01-\uFFE3]+/g
+      var regexp_makeLink = function (url) {
+        return '<a href="' + url + '">' + url + '</a>'
+      }
+      if (str.match(regexp_url) != null) {
+        const urlAllMatches = str.match(regexp_url)
+        if (urlAllMatches) {
+          const urlMatches = new Set(urlAllMatches)
+          urlMatches.forEach((url) => {
+            str = str.replaceAll(url, regexp_makeLink(url))
+          })
+        }
+      }
+      return str
     },
   },
 }
