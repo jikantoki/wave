@@ -17,10 +17,11 @@ export default {
     const route = useRoute()
     const postId = route.params.postId
     //サーバーサイドで仮のタイトルを設定、mountedで言語ごとに再設定する
-    Setup.setTitle(postId)
-    Setup.setDescription(`ID:${postId}詳細ページ`)
+    Setup.setTitle('ポスト')
+    Setup.setDescription('ポストの詳細')
   },
   async mounted() {
+    this.setTitle('ポスト')
     const params = this.$route.params
     this.postId = params.postId
     const post = await this.sendAjaxWithAuth('/getPost.php', {
