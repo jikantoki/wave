@@ -535,6 +535,7 @@ function makeAccount($userId, $password, $mailAddress)
   }
   /** 未使用なランダムID */
   $secretId = SQLmakeRandomId('user_list', 'secretId');
+  $mailAddressId = SQLmakeRandomId('user_mail_list', 'mailAddressId');
   /** 現在のunixtime */
   $createdAt = time();
   /** アカウントステータス:未認証 */
@@ -565,6 +566,7 @@ function makeAccount($userId, $password, $mailAddress)
     'message' => null
   ]);
   SQLinsert('user_mail_list', [
+    'mailAddressId' => $mailAddressId,
     'secretId' => $secretId,
     'mailAddress' => $mail,
     'status' => 'Uncertified',
