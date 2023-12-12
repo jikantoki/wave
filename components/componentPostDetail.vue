@@ -2,8 +2,9 @@
 //v-ripple動的変更が今のところ不可
 .component-post-detail.pt-1(
   :v-ripple="!clickable"
-  @click.stop="postClick"
+  @click="postClick"
   @click.middle.stop="postClickMiddle"
+  :style="clickable ? 'cursor: pointer;' : ''"
   )
   .component-post-wrap
     .icon
@@ -30,7 +31,11 @@
           :href="`/${postForDisplay.userId}`"
           ) @{{ postForDisplay.userId }}
         a.time {{ postForDisplay.createdAt }}
-      .message.px-2(v-html="postForDisplay.message" @click="checkClickElement")
+      .message.px-2(
+        v-html="postForDisplay.message"
+        @click="checkClickElement"
+        :style="clickable ? '' : 'user-select: text;'"
+        )
   .action-buttons
     v-btn(
       size="small"
@@ -119,16 +124,17 @@ export default {
       }
     },
     postClick(e) {
-      if (!this.clickable) {
+      if (e && e.target.tagName !== 'A' && e.target.tagName !== 'IMG') {
+        if (this.clickable) {
+          this.a(`/post/${this.postForDisplay.postId}`)
+          e.preventDefault()
+          e.stopPropagation()
+          return false
+        }
+      } else {
         e.preventDefault()
         e.stopPropagation()
-        return false
       }
-      if (e && e.target.tagName !== 'A' && e.target.tagName !== 'IMG') {
-        this.a(`/post/${this.postForDisplay.postId}`)
-      }
-      e.preventDefault()
-      e.stopPropagation()
     },
     postClickMiddle(e) {
       if (!this.clickable) {
@@ -149,7 +155,6 @@ export default {
 <style lang="scss">
 //v-htmlを使う関係でscoped禁止
 .component-post-detail {
-  cursor: pointer;
   .component-post-wrap {
     display: flex;
     .icon {
