@@ -3,7 +3,7 @@
   ComponentPostDetail(
     v-if="postData"
     :post="postData"
-    clickable=false
+    :clickable="false"
     )
 </template>
 
@@ -31,7 +31,6 @@ export default {
         ...post.body.res,
         message: this.decodeEntity(post.body.res.postMessage),
       }
-      console.log(returnPost)
       this.postData = returnPost
     } else {
       //404

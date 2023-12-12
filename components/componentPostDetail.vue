@@ -2,8 +2,8 @@
 //v-ripple動的変更が今のところ不可
 .component-post-detail.pt-1(
   :v-ripple="!clickable"
-  @click.stop="ass"
-  @click.middle.stop="asst"
+  @click.stop="postClick"
+  @click.middle.stop="postClickMiddle"
   )
   .component-post-wrap
     .icon
@@ -118,16 +118,25 @@ export default {
         e.stopPropagation()
       }
     },
-    ass(e) {
-      if (e && (e.target.tagName === 'A' || e.target.tagName === 'IMG')) {
-      } else {
+    postClick(e) {
+      if (!this.clickable) {
+        e.preventDefault()
+        e.stopPropagation()
+        return false
+      }
+      if (e && e.target.tagName !== 'A' && e.target.tagName !== 'IMG') {
         this.a(`/post/${this.postForDisplay.postId}`)
       }
+      e.preventDefault()
       e.stopPropagation()
     },
-    asst(e) {
-      if (e && (e.target.tagName === 'A' || e.target.tagName === 'IMG')) {
-      } else {
+    postClickMiddle(e) {
+      if (!this.clickable) {
+        e.preventDefault()
+        e.stopPropagation()
+        return false
+      }
+      if (e && e.target.tagName !== 'A' && e.target.tagName !== 'IMG') {
         this.a(`/post/${this.postForDisplay.postId}`, true)
       }
       e.preventDefault()
