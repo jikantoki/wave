@@ -1,5 +1,9 @@
 <template lang="pug">
-p {{ postId }}
+.post-page
+  ComponentPostDetail(
+    v-if="postData"
+    :post="postData"
+    )
 </template>
 
 <script>
@@ -15,9 +19,11 @@ export default {
     Setup.setTitle(postId)
     Setup.setDescription(`ID:${postId}詳細ページ`)
   },
-  mounted() {
+  async mounted() {
     const params = this.$route.params
     this.postId = params.postId
+    const post = await this.sendAjaxWithAuth('/getPost.php')
+    this.postData = post.body.res
   },
   data() {
     return {
