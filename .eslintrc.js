@@ -2,17 +2,21 @@ module.exports = {
   root: true,
   env: {
     browser: true,
-    node: true,
+    node: true
   },
   parser: 'vue-eslint-parser',
   parserOptions: {
-    parser: '@babel/eslint-parser',
+    parser: '@babel/eslint-parser'
   },
   plugins: ['vue'],
   extends: [
+    'plugin:vue/vue3-recommended',
     'plugin:vue/essential',
     'plugin:prettier/recommended',
     'eslint:recommended',
+    '@vue/prettier',
+    'eslint-config-prettier',
+    'plugin:vuetify/base'
   ],
   rules: {
     'vue/multi-word-component-names': 'off',
@@ -29,6 +33,6 @@ module.exports = {
     'vue/order-in-components':
       process.env.NODE_ENV === 'production' ? 'off' : 'error',
     semi: ['error', 'never'],
-    quotes: ['error', 'single'],
-  },
+    quotes: ['error', 'single']
+  }
 }

@@ -17,9 +17,9 @@ export default {
   layout: 'default',
   data() {
     return {
-      error: useError(),
+      error: useError()
     }
-  },
+  }
 }
 </script>
 
@@ -27,7 +27,7 @@ export default {
 $breakpoints: (
   'smartPhone': 'screen and (max-width:900px)',
   'tablet': 'screen and (max-width:1400px)',
-  'pwa': '(display-mode: standalone)',
+  'pwa': '(display-mode: standalone)'
 ) !default;
 
 /* フォント設定 */

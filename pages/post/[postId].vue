@@ -25,12 +25,12 @@ export default {
     const params = this.$route.params
     this.postId = params.postId
     const post = await this.sendAjaxWithAuth('/getPost.php', {
-      postId: this.postId,
+      postId: this.postId
     })
     if (post && post.body.status === 'ok') {
       const returnPost = {
         ...post.body.res,
-        message: this.decodeEntity(post.body.res.postMessage),
+        message: this.decodeEntity(post.body.res.postMessage)
       }
       this.postData = returnPost
     } else {
@@ -40,8 +40,8 @@ export default {
   data() {
     return {
       postId: null,
-      postData: null,
+      postData: null
     }
-  },
+  }
 }
 </script>

@@ -50,7 +50,7 @@ export default {
       userData: null,
       pushMessage: '',
       errorMessage: false,
-      successMessage: false,
+      successMessage: false
     }
   },
   async mounted() {
@@ -76,12 +76,12 @@ export default {
         {
           id: this.userStore.userId,
           token: this.userStore.userToken,
-          for: userId,
+          for: userId
         },
         {
           title: `${this.userStore.userId}からのメッセージ`,
-          message: this.pushMessage,
-        },
+          message: this.pushMessage
+        }
       )
         .then((e) => {
           this.successMessage = true
@@ -92,7 +92,7 @@ export default {
           console.log(e)
           return false
         })
-    },
-  },
+    }
+  }
 }
 </script>
