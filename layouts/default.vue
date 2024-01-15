@@ -174,11 +174,11 @@ export default {
       .then((e) => {
         if (!e) {
           console.log(e)
-          this.isDisplayCommonPushButtons = true
           throw 'cannot get notification detail'
         }
       })
       .catch((e) => {
+        this.isDisplayCommonPushButtons = true
         console.log(e)
       })
     if (webpush.get()) {
