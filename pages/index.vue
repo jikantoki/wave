@@ -1,5 +1,8 @@
 <template lang="pug">
 .index-page
+  .wrap.is-not-mobile(v-if="userStore && userStore.userId")
+    v-card.content(elevation="4" style="padding: 0;")
+      ComponentPostForm( noFloat=true)
   .wrap
     v-card.content(elevation="4")
       .post-detail(
@@ -87,10 +90,12 @@ import webpush from '~/js/webpush'
 import metaFunctions from '~/js/metaFunctions'
 import Setup from '~/js/setup'
 import ComponentPostDetail from '~/components/componentPostDetail.vue'
+import componentPostForm from '~/components/componentPostForm.vue'
 export default {
   name: 'index',
   components: {
-    ComponentPostDetail: ComponentPostDetail,
+    ComponentPostDetail,
+    componentPostForm
   },
   mixins: [mixins],
   setup() {
@@ -106,7 +111,7 @@ export default {
       dialogText: null,
       dialogActions: null,
       counter: useCounterStore(),
-      postList: [],
+      postList: []
     }
   },
   async mounted() {
@@ -131,8 +136,8 @@ export default {
             value: '閉じる',
             action: () => {
               this.dialog = false
-            },
-          },
+            }
+          }
         ]
         return false
       }
@@ -141,13 +146,13 @@ export default {
         {
           endpoint: keys.endpoint,
           publickey: keys.publicKey,
-          authtoken: keys.authToken,
+          authtoken: keys.authToken
         },
         {
           message: this.notificationText,
           title: 'て～～～すと🤓',
-          icon: 'https://wave.enoki.xyz/img/icon192.png',
-        },
+          icon: 'https://wave.enoki.xyz/img/icon192.png'
+        }
       )
       this.dialogTitle = '通知を送信しました'
       this.dialogText = 'プッシュ通知を確認してみてください！'
@@ -157,8 +162,8 @@ export default {
           value: '閉じる',
           action: () => {
             this.dialog = false
-          },
-        },
+          }
+        }
       ]
       return true
     },
@@ -171,16 +176,16 @@ export default {
           value: 'ボタン2',
           action: () => {
             this.dialog = false
-          },
+          }
         },
         {
           value: '閉じる',
           action: () => {
             this.dialog = false
-          },
-        },
+          }
+        }
       ]
-    },
-  },
+    }
+  }
 }
 </script>

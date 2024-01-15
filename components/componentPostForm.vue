@@ -1,7 +1,12 @@
 <template lang="pug">
-.component-post-form(@click="closePostForm()")
+.component-post-form(
+  @click="closePostForm()"
+  :style="noFloat ? '' : 'position: fixed;width: 100%;height: 100%;z-index: 1400;background: rgba(0, 0, 0, 0.5);'"
+  )
   .post-dialog-outer(@click.stop)
-    v-card.post-dialog
+    v-card.post-dialog(
+      :style="noFloat ? '' : 'margin-top: 100px;width: 95%;max-width: 640px;height: 50%;margin: auto;border-radius: 16px;'"
+    )
       v-card-actions.is-mobile.py-0
         v-btn(icon="mdi-close" @click="closePostForm()").my-1.mx-0
         v-spacer
@@ -22,7 +27,7 @@
             @input="changeTextArea(this.$refs.postTextarea)"
           )
           p.post-label.py-4.px-2(
-            v-show="postButtonDisabled"
+            v-show="!editorData"
           )  {{ $t('postForm.whatsUp') }}
       v-card-actions.is-not-mobile
         v-spacer
@@ -50,14 +55,26 @@ export default {
           this.postButtonDisabled = false
         } else {
           this.postButtonDisabled = true
+          if (newText === '<div><br></div>') {
+            this.editorData = null
+          }
         }
       },
       immediate: true
     }
   },
+  props: {
+    noFloat: {
+      type: Boolean,
+      require: false,
+      default: false
+    }
+  },
   mounted() {
     this.useHumbergerStore.setDisabled(true)
-    this.$refs.postTextarea.focus()
+    if (!this.noFloat) {
+      this.$refs.postTextarea.focus()
+    }
   },
   unmounted() {
     this.useHumbergerStore.setDisabled(false)
@@ -86,6 +103,9 @@ export default {
         )
           .then((e) => {
             console.log(e)
+            if (e.body && e.body.status === 'ok') {
+              console.log(e.body.status)
+            }
           })
           .catch((e) => {
             console.log(e)
@@ -99,18 +119,20 @@ export default {
       if (!string || string === '') {
         return false
       }
-      const str1 = string.replaceAll(' ', '')
-      const str2 = str1.replaceAll('　', '')
-      const str3 = str2.replaceAll('\n', '')
-      const str4 = str3.replaceAll('\r', '')
-      const str5 = str4.replaceAll('<div>', '')
-      const str6 = str5.replaceAll('</div>', '')
-      const str7 = str6.replaceAll('<span>', '')
-      const str8 = str7.replaceAll('</span>', '')
-      if (str8 === '' || str8 === '<br>') {
+      string = string.replaceAll(' ', '')
+      string = string.replaceAll('　', '')
+      string = string.replaceAll('\n', '')
+      string = string.replaceAll('\r', '')
+      string = string.replaceAll('<div>', '')
+      string = string.replaceAll('</div>', '')
+      string = string.replaceAll('<span>', '')
+      string = string.replaceAll('</span>', '')
+      string = string.replaceAll('<br>', '')
+      string = string.replaceAll('&nbsp;', '')
+      if (string === '') {
         return false
       }
-      return str8
+      return string
     },
     noBrTag(string) {
       if (!string || string === '') {
@@ -147,6 +169,7 @@ export default {
       if (!str) {
         return false
       }
+      return str
       const regexp_url =
         /(https?|ftp):\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#\u3001-\u30FE\u4E00-\u9FA0\uFF01-\uFFE3]+/g
       var regexp_makeLink = function (url) {
@@ -179,20 +202,7 @@ $breakpoints: (
     @content;
   }
 }
-.component-post-form {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: 1400;
-  background: rgba(0, 0, 0, 0.5);
-}
 .post-dialog {
-  width: 95%;
-  max-width: 640px;
-  height: 50%;
-  margin: auto;
-  margin-top: calc(100px);
-  border-radius: 16px;
   @include mq('smartPhone') {
     max-width: none;
   }

@@ -6,18 +6,18 @@
         href="/"
         icon="mdi-home-outline"
         isActive
-      ) トップ
+        ) トップ
       componentLeftPannelButton(
         v-if="userStore && userStore.userId && userStore.profile"
         :href="`/${userStore.userId}`"
         icon="mdi-account"
         isActive
-      ) プロフィール
+        ) プロフィール
       componentLeftPannelButton(
         v-for="item, key of NavigationList"
         :href="item.url"
         :icon="item.icon"
-      ) {{ item.name }}
+        ) {{ item.name }}
 </template>
 
 <script>

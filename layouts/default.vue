@@ -173,6 +173,7 @@ export default {
       .set()
       .then((e) => {
         if (!e) {
+          console.log(e)
           this.isDisplayCommonPushButtons = true
           throw 'cannot get notification detail'
         }
