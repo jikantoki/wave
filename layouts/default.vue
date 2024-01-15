@@ -5,10 +5,21 @@
     header
       common-header
     v-main#main
-      .center.main-content
-        router-view
-      footer.pa-16.footer
+      .main-flex
+        .left
+        .center.main-content
+          router-view
+        .right
+      .main-flex.main-fixed
+        commonLeftPannel.left
+        .center.main-content.eventsnone
+        commonRightPannel.right
+      //footer.pa-16.footer
         common-footer
+      .main-flex.main-fixed.main-account-left-pannel
+        componentAccountLeftPannel.left
+        .center.main-content.eventsnone
+        .right
       common-bar(
         v-if="!userStore || !userStore.userId"
         title="ログインして、もっと便利に"
@@ -63,6 +74,9 @@ import webpush from '~/js/webpush'
 import splash from '~/components/common/commonSplash'
 import commonBar from '~/components/common/commonBar'
 import ComponentPostForm from '~/components/componentPostForm'
+import commonLeftPannel from '~/components/common/commonLeftPannel.vue'
+import commonRightPannel from '~/components/common/commonRightPannel.vue'
+import componentAccountLeftPannel from '~/components/componentAccountLeftPannel.vue'
 
 export default {
   /**
@@ -78,6 +92,9 @@ export default {
     splash: splash,
     commonBar: commonBar,
     ComponentPostForm: ComponentPostForm,
+    commonLeftPannel,
+    commonRightPannel,
+    componentAccountLeftPannel
   },
   mixins: [mixins],
   /**
@@ -94,31 +111,31 @@ export default {
       commonBarButtons: [
         {
           title: 'ログイン',
-          href: '/login',
+          href: '/login'
         },
         {
           title: 'アカウント作成',
-          href: '/registar',
-        },
+          href: '/registar'
+        }
       ],
       commonBarPushButtons: [
         {
           title: '通知を許可',
-          return: 'allowPush',
-        },
+          return: 'allowPush'
+        }
       ],
       installPWAbutton: [
         {
           title: 'インストールする',
-          return: 'installPWA',
-        },
+          return: 'installPWA'
+        }
       ],
       PWAinstallable: false,
       dialog: false,
       dialogTitle: null,
       dialogText: null,
       dialogActions: null,
-      postForm: false,
+      postForm: false
     }
   },
   /**
@@ -154,10 +171,18 @@ export default {
       */
     webpush
       .set()
-      .then((e) => {})
-      .catch((e) => {
-        this.isDisplayCommonPushButtons = true
+      .then((e) => {
+        if (!e) {
+          this.isDisplayCommonPushButtons = true
+          throw 'cannot get notification detail'
+        }
       })
+      .catch((e) => {
+        console.log(e)
+      })
+    if (webpush.get()) {
+      this.isDisplayCommonPushButtons = false
+    }
 
     /**
      * mountedの最後に記述
@@ -195,8 +220,8 @@ export default {
             value: '閉じる',
             action: () => {
               this.dialog = false
-            },
-          },
+            }
+          }
         ]
         this.dialog = true
         return webPush
@@ -211,8 +236,8 @@ export default {
               value: '閉じる',
               action: () => {
                 this.dialog = false
-              },
-            },
+              }
+            }
           ]
         } else {
           this.dialogTitle = 'リクエスト失敗'
@@ -223,8 +248,8 @@ export default {
               value: '閉じる',
               action: () => {
                 this.dialog = false
-              },
-            },
+              }
+            }
           ]
         }
         return null
@@ -233,8 +258,8 @@ export default {
     postClose() {
       this.postForm = false
     },
-    installPWA() {},
-  },
+    installPWA() {}
+  }
 }
 </script>
 
@@ -242,8 +267,8 @@ export default {
 $breakpoints: (
   'smartPhone': 'screen and (max-width:700px)',
   'notSmartPhone': 'screen and (min-width:700px)',
-  'tablet': 'screen and (max-width:1100px)',
-  'pwa': '(display-mode: standalone)',
+  'tablet': 'screen and (max-width:1000px)',
+  'pwa': '(display-mode: standalone)'
 ) !default;
 
 @mixin mq($breakpoint) {
@@ -281,6 +306,18 @@ body {
   transition: all 0.14s;
   font-family: $font !important;
 }
+.main-flex {
+  display: flex;
+  width: 100%;
+}
+.main-fixed {
+  position: fixed;
+  z-index: 1;
+  height: 0px;
+}
+.main-account-left-pannel {
+  bottom: 16px;
+}
 #nuxt {
   font-family: $font !important;
   -webkit-font-smoothing: antialiased;
@@ -289,13 +326,38 @@ body {
     padding: 30px;
   }
   .center {
-    width: 60%;
-    margin: auto;
+    width: 50%;
+    max-width: 580px;
+    margin-bottom: auto;
     @include mq('tablet') {
-      width: 80%;
+      width: 70%;
     }
     @include mq('smartPhone') {
       width: 100%;
+    }
+  }
+  .eventsnone {
+    pointer-events: none;
+  }
+  .left,
+  .right {
+    width: 25%;
+    @include mq('tablet') {
+      width: 30%;
+    }
+    @include mq('smartPhone') {
+      width: 0%;
+      display: none;
+    }
+  }
+  .left {
+    margin-left: auto;
+  }
+  .right {
+    margin-right: auto;
+    @include mq('tablet') {
+      width: 0%;
+      display: none;
     }
   }
   .text-h0 {
@@ -464,9 +526,6 @@ body {
   #main {
     display: flex;
     flex-direction: column;
-    .center.main-content {
-      flex: 1;
-    }
     .footer {
       bottom: 0;
       width: 100%;

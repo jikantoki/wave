@@ -38,7 +38,7 @@ export default {
   data() {
     return {
       editorData: null,
-      postButtonDisabled: true,
+      postButtonDisabled: true
     }
   },
   mixins: [mixins],
@@ -52,8 +52,8 @@ export default {
           this.postButtonDisabled = true
         }
       },
-      immediate: true,
-    },
+      immediate: true
+    }
   },
   mounted() {
     this.useHumbergerStore.setDisabled(true)
@@ -78,11 +78,11 @@ export default {
           '/sendPostMessage.php',
           {
             id: this.userStore.userId,
-            token: this.userStore.userToken,
+            token: this.userStore.userToken
           },
           {
-            message: this.editorData,
-          },
+            message: this.editorData
+          }
         )
           .then((e) => {
             console.log(e)
@@ -162,16 +162,16 @@ export default {
         }
       }
       return str
-    },
-  },
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 $breakpoints: (
   'smartPhone': 'screen and (max-width:700px)',
-  'tablet': 'screen and (max-width:1100px)',
-  'pwa': '(display-mode: standalone)',
+  'tablet': 'screen and (max-width:1000px)',
+  'pwa': '(display-mode: standalone)'
 ) !default;
 
 @mixin mq($breakpoint) {

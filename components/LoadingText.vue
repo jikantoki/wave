@@ -16,12 +16,12 @@ export default {
     width: {
       type: String,
       require: false,
-      default: '10em',
-    },
+      default: '10em'
+    }
   },
   components: {
-    ContentLoader,
-  },
+    ContentLoader
+  }
 }
 </script>
 

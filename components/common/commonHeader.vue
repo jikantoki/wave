@@ -144,7 +144,7 @@ export default {
       dialog: false,
       dialogTitle: null,
       dialogText: null,
-      dialogActions: null,
+      dialogActions: null
     }
   },
   watch: {
@@ -167,7 +167,7 @@ export default {
         MetaFunctions.setStatusColor('#FFFFFF')
         localStorage.theme = 'light'
       }
-    },
+    }
   },
   async mounted() {
     const now = new URL(window.location.href)
@@ -225,7 +225,7 @@ export default {
         startX = e.touches[0].clientX
         startY = e.touches[0].clientY
       },
-      { passive: true },
+      { passive: true }
     )
 
     //移動した座標を取得
@@ -235,7 +235,7 @@ export default {
         endX = e.changedTouches[0].clientX
         endY = e.changedTouches[0].clientY
       },
-      { passive: true },
+      { passive: true }
     )
 
     //移動距離から左右or上下の処理を実行
@@ -280,7 +280,7 @@ export default {
       //アカウントのトークンが正しいか認証
       this.sendAjaxWithAuth('/authAccount.php', {
         id: this.userStore.userId,
-        token: this.userStore.userToken,
+        token: this.userStore.userToken
       })
         .then((e) => {
           if (e.body && e.body.status && e.body.status === 'ng') {
@@ -321,7 +321,7 @@ export default {
         token: this.userStore.userToken,
         endPoint: push.endpoint,
         publicKey: push.publicKey,
-        pushToken: push.authToken,
+        pushToken: push.authToken
       })
     }
   },
@@ -406,15 +406,15 @@ export default {
           value: 'いいえ',
           action: () => {
             this.dialog = false
-          },
+          }
         },
         {
           value: 'はい',
           action: () => {
             this.logout()
             this.dialog = false
-          },
-        },
+          }
+        }
       ]
       this.dialog = true
     },
@@ -426,12 +426,12 @@ export default {
           token: this.userStore.userToken,
           endPoint: push.endpoint,
           publicKey: push.publicKey,
-          pushToken: push.authToken,
+          pushToken: push.authToken
         })
       }
       this.sendAjaxWithAuth('/logoutAccount.php', {
         id: this.userStore.userId,
-        token: this.userStore.userToken,
+        token: this.userStore.userToken
       })
         .then((e) => {
           this.userStore.setId(null)
@@ -441,16 +441,16 @@ export default {
         .catch((e) => {
           console.log(e)
         })
-    },
-  },
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 $breakpoints: (
   'smartPhone': 'screen and (max-width:700px)',
-  'tablet': 'screen and (max-width:1100px)',
-  'pwa': '(display-mode: standalone)',
+  'tablet': 'screen and (max-width:1000px)',
+  'pwa': '(display-mode: standalone)'
 ) !default;
 
 @mixin mq($breakpoint) {

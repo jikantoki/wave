@@ -22,29 +22,29 @@ export default {
   props: {
     title: {
       type: String,
-      require: true,
+      require: true
     },
     subTitle: {
       type: String,
       require: false,
-      default: null,
+      default: null
     },
     buttons: {
       type: Array,
       require: false,
-      default: [],
-    },
+      default: []
+    }
   },
   emits: ['clicked'],
-  mixins: [mixins],
+  mixins: [mixins]
 }
 </script>
 
 <style lang="scss" scoped>
 $breakpoints: (
   'smartPhone': 'screen and (max-width:700px)',
-  'tablet': 'screen and (max-width:1100px)',
-  'pwa': '(display-mode: standalone)',
+  'tablet': 'screen and (max-width:1000px)',
+  'pwa': '(display-mode: standalone)'
 ) !default;
 
 @mixin mq($breakpoint) {
@@ -59,6 +59,7 @@ $breakpoints: (
   width: 100%;
   text-align: center;
   overflow: hidden;
+  z-index: 2;
   @include mq('smartPhone') {
   }
   .position-relative {
