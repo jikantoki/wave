@@ -2,7 +2,7 @@
 .login(v-if="isShow")
   v-form.center(@submit.prevent)
     img.ma-8(src="~/assets/logo.png")
-    p.form-p.text-h6 アカウント新規登録
+    p.form-p.text-h6 {{ $t('registar.registarTitle') }}
     v-container
       o.success.pa-4.ma-4.relative(v-if="page === 1")
         v-icon mdi-check
@@ -32,7 +32,7 @@
         v-if="page === 0"
         v-model="mailAddress"
         name="mail"
-        label="Mail Address"
+        :label="$t('registar.mailAddress')"
         prepend-inner-icon="mdi-email-outline"
         type="email"
         :rules="[rules.required]"
@@ -44,7 +44,7 @@
         v-if="page === 0"
         v-model="password"
         name="password"
-        label="Password"
+        :label="$t('registar.password')"
         prepend-inner-icon="mdi-lock-outline"
         :type="showPassword ? 'text' : 'password'"
         :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -57,7 +57,7 @@
         v-if="page === 0"
         v-model="confirmPassword"
         name="confirmPassword"
-        label="Confirm Password"
+        :label="$t('registar.confirmPassword')"
         prepend-inner-icon="mdi-lock-outline"
         :type="showConfirmPassword ? 'text' : 'password'"
         :append-inner-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -69,7 +69,7 @@
       v-checkbox(
         v-if="page === 0"
         v-model="agreement"
-        label="利用規約に同意します"
+        :label="$t('registar.agreement')"
         ref="formAgree"
         )
       .btns
@@ -82,11 +82,11 @@
         v-btn.round(
           v-if="page === 0"
           @click="a('/login')"
-          ) I have a account already
+          ) {{ $t('registar.login') }}
         v-btn.round.submit(
           v-if="page === 1"
           @click="a('/login')"
-          ) Login
+          ) {{ $t('registar.registar') }}
 </template>
 
 <script>
@@ -114,8 +114,8 @@ export default {
       errorMessage: '',
       page: 0,
       rules: {
-        required: (value) => !!value || 'Field is required',
-      },
+        required: (value) => !!value || 'Field is required'
+      }
     }
   },
   watch: {
@@ -133,10 +133,10 @@ export default {
     },
     agreement() {
       this.errorMessage = false
-    },
+    }
   },
   mounted() {
-    this.setTitle('新規登録')
+    this.setTitle(this.$t('registar.registar'))
     this.commonBarStore.hidden = true
     if (localStorage.userIdForLogin) {
       this.userName = localStorage.userIdForLogin
@@ -184,7 +184,7 @@ export default {
       this.sendAjaxWithAuth('/createAccount.php', {
         username: this.userName,
         password: this.password,
-        mailaddress: this.mailAddress,
+        mailaddress: this.mailAddress
       })
         .then((e) => {
           if (e.body.status === 'ok') {
@@ -197,8 +197,8 @@ export default {
           console.log(e)
           this.errorMessage = 'ネットワークエラー'
         })
-    },
-  },
+    }
+  }
 }
 </script>
 

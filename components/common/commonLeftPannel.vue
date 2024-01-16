@@ -2,17 +2,16 @@
 .common-left-pannel-wrap.px-2
   .common-left-pannel
     .navigation-buttons
+      //componentLeftPannelButtonはisActiveを付けると太字になる
       componentLeftPannelButton(
         href="/"
         icon="mdi-home-outline"
-        isActive
-        ) トップ
+        ) {{ $t('header.top') }}
       componentLeftPannelButton(
         v-if="userStore && userStore.userId && userStore.profile"
         :href="`/${userStore.userId}`"
         icon="mdi-account"
-        isActive
-        ) プロフィール
+        ) {{ $t('header.profile') }}
       componentLeftPannelButton(
         v-for="item, key of NavigationList"
         :href="item.url"

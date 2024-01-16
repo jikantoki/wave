@@ -22,14 +22,14 @@
         .right
       common-bar(
         v-if="!userStore || !userStore.userId"
-        title="ログインして、もっと便利に"
-        subTitle="Waveにログインし、世界と繋がろう"
+        :title="$t('loginBanner.title')"
+        :subTitle="$t('loginBanner.description')"
         :buttons="commonBarButtons"
         )
       common-bar(
         v-show="userStore && userStore.userId && isDisplayCommonPushButtons"
-        title="最新の情報を入手しよう"
-        subTitle="通知の送信を許可することで、最新情報を入手できます。"
+        :title="$t('allowNotification.title')"
+        :subTitle="$t('allowNotification.description')"
         :buttons="commonBarPushButtons"
         @clicked="pushFlow()"
         )
@@ -110,17 +110,17 @@ export default {
       isDisplayCommonPushButtons: false,
       commonBarButtons: [
         {
-          title: 'ログイン',
+          title: this.$t('common.login'),
           href: '/login'
         },
         {
-          title: 'アカウント作成',
+          title: this.$t('common.registar'),
           href: '/registar'
         }
       ],
       commonBarPushButtons: [
         {
-          title: '通知を許可',
+          title: this.$t('allowNotification.allowButton'),
           return: 'allowPush'
         }
       ],

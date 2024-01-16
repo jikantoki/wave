@@ -15,7 +15,7 @@
         .user-img-left-pannel
           img(src="/account_default.jpg")
         .user-name-left-pannel.mx-2
-          .user-name ログイン
+          .user-name {{ $t('common.login') }}
         .dot-vertical.pa-2
           v-icon mdi-dots-vertical
 </template>

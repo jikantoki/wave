@@ -7,7 +7,7 @@
           v-list-item.pa-4(link)
             .v-item
               v-icon(style="opacity:0.7") mdi-account-outline
-              p.nav ログイン
+              p.nav {{ $t('common.login') }}
         a.header-list(:href="`/${userStore.userId}`" v-if="userStore && userStore.userId")
           v-list-item.pa-4(link)
             .v-item
@@ -68,7 +68,7 @@
         v-menu(activator="parent" offset-x)
           v-list
             v-list-item.logout(link @click="logoutDialog()")
-              v-list-item-title ログアウト
+              v-list-item-title {{ $t('common.logout') }}
   v-app-bar
     template(v-slot:append)
       v-btn(icon="mdi-magnify" @click="headerSearchDialog = true")
@@ -77,7 +77,7 @@
         v-menu(activator="parent" offset-y)
           v-list
             v-list-item(link @click="a('/rule')")
-              v-list-item-title 利用規約
+              v-list-item-title {{ $t('common.rules') }}
     v-app-bar-nav-icon(v-if="isRoot && (!userStore || !userStore.profile || !userStore.profile.userId)" @click="toggleDrawer()")
     .nav-icon(v-if="isRoot && userStore && userStore.profile && userStore.profile.userId")
       .nav-round(@click="toggleDrawer()" v-ripple)

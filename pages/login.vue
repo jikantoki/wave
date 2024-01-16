@@ -24,7 +24,7 @@
       v-text-field(
         v-if="page === 0"
         v-model="password"
-        label="Password"
+        :label="$t('login.password')"
         prepend-inner-icon="mdi-lock-outline"
         :type="showPassword ? 'text' : 'password'"
         :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -33,13 +33,15 @@
         ref="password"
         @keydown.enter="requestToken()"
         )
-      a.forgot-password(v-if="page === 0" href="/password_reset") パスワードを忘れました
+      a.forgot-password(
+        v-if="page === 0" href="/password_reset"
+        ) {{ $t('login.forgotPassword') }}
       v-text-field(
         v-if="page === 1"
         v-model="token"
         type="phone"
         placeholder="XXX-XXX"
-        label="アクセストークン"
+        :label="$t('login.accessToken')"
         prepend-inner-icon="mdi-key-outline"
         required
         clearable
@@ -52,19 +54,19 @@
           :disabled="!userName || !password"
           :loading="loading"
           ref="submit"
-          ) Login
+          ) {{ $t('login.login') }}
         v-btn.round(
           v-if="page === 0"
           @click="a('/registar')"
           v-show="!loading"
-          ) Registar Account
+          ) {{ $t('login.registar') }}
         v-btn.round.submit(
           v-if="page === 1"
           @click="login()"
           :disabled="!token"
           :loading="loadingToken"
           ref="submitToken"
-          ) Login
+          ) {{ $t('login.login') }}
 </template>
 
 <script>
@@ -91,8 +93,8 @@ export default {
       loadingToken: false,
       errorMessage: null,
       page: 0,
-      pageTitle: 'ログインして、世界とつながろう',
-      userStore: useUserStore(),
+      pageTitle: this.$t('login.loginTitle'),
+      userStore: useUserStore()
     }
   },
   watch: {
@@ -101,10 +103,10 @@ export default {
       if (replaced.length >= 6) {
         this.login()
       }
-    },
+    }
   },
   mounted() {
-    this.setTitle('ログイン')
+    this.setTitle(this.$t('login.login'))
     this.commonBarStore.hidden = true
     if (localStorage.userIdForLogin) {
       this.userName = localStorage.userIdForLogin
@@ -124,13 +126,13 @@ export default {
       this.loading = true
       this.sendAjaxWithAuth('/requestToken.php', {
         id: this.userName,
-        password: this.password,
+        password: this.password
       })
         .then((e) => {
           if (e.body.status === 'ok') {
             this.page = 1
             this.errorMessage = null
-            this.pageTitle = 'メールに送信したトークンを入力'
+            this.pageTitle = this.$t('login.checkYourToken')
           } else {
             this.errorMessage = 'ユーザー名またはパスワードが間違っています'
           }
@@ -148,7 +150,7 @@ export default {
       this.sendAjaxWithAuth('/loginAccount.php', {
         id: this.userName,
         password: this.password,
-        token: this.token,
+        token: this.token
       })
         .then(async (e) => {
           if (e.body.status === 'ok') {
@@ -165,7 +167,7 @@ export default {
                 token: this.userStore.userToken,
                 endPoint: push.endpoint,
                 publicKey: push.publicKey,
-                pushToken: push.authToken,
+                pushToken: push.authToken
               })
             }
             const redirect = now.searchParams.get('redirect')
@@ -185,8 +187,8 @@ export default {
           this.errorMessage = 'ネットワークエラー'
           this.loadingToken = false
         })
-    },
-  },
+    }
+  }
 }
 </script>
 
