@@ -1,5 +1,5 @@
 <template lang="pug">
-.usre-page(v-if="param")
+.user-page(v-if="param")
   p.text-h3 Hello! {{ param.userId }}
   ContentLoader.text-h3.loading-text(width="10em")
   div(v-if="userData")
