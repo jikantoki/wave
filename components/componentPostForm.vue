@@ -3,7 +3,7 @@
   @click="closePostForm()"
   :style="noFloat ? '' : 'position: fixed;width: 100%;height: 100%;z-index: 1400;background: rgba(0, 0, 0, 0.5);'"
   )
-  .post-dialog-outer(@click.stop)
+  .post-dialog-outer(@click.stop :style="noFloat ? '' : 'top: 64px;position: relative;'")
     v-card.post-dialog(
       :style="noFloat ? '' : 'margin-top: 100px;width: 95%;max-width: 640px;height: 50%;margin: auto;border-radius: 16px;'"
     )
@@ -90,7 +90,6 @@ export default {
         this.noSpaceAndEnter(this.editorData) &&
         this.noBrTag(this.editorData)
       ) {
-        console.log('post!')
         this.sendAjaxWithAuth(
           '/sendPostMessage.php',
           {
@@ -102,10 +101,13 @@ export default {
           }
         )
           .then((e) => {
-            console.log(e)
             if (e.body && e.body.status === 'ok') {
               console.log(e.body.status)
             }
+            this.setToast('ポストを送信しました！')
+            this.editorData = null
+            this.$refs.postTextarea.innerHTML = ''
+            this.$emit('close')
           })
           .catch((e) => {
             console.log(e)

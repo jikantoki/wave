@@ -24,7 +24,8 @@ export default {
   },
   postForm: {
     whatsUp: '今何してる？',
-    post: 'ポスト'
+    post: 'ポスト',
+    sentpost: 'ポストを送信しました！'
   },
   /** 全ページ共通 */
   common: {

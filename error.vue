@@ -4,7 +4,8 @@
     .card
       img.logo-img(src="/icon.png")
       v-card-title.title Error {{ error.statusCode }}
-      v-card-subtitle {{ error.message }}
+      v-card-subtitle.error-subtitle(v-if="error.statusCode !== 404") {{ error }}
+      v-card-subtitle.error-subtitle(v-else) {{ error.message }}
       v-card-text
         span ごめんエラーページ出ちった
       v-card-actions
@@ -92,5 +93,11 @@ body {
 }
 .logo-img {
   width: 8em;
+}
+.error-subtitle {
+  white-space: break-spaces;
+  max-height: 20vh;
+  overflow-y: auto;
+  user-select: text;
 }
 </style>

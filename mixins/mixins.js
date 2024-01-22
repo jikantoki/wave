@@ -11,13 +11,14 @@ import Functions from '~/js/Functions'
 import ContentLoader from '~/components/LoadingText'
 import { useCommonBarStore } from '~/composables/commonBar'
 import { useThemeStore } from '~/composables/theme'
+import { useToastStore } from '~/composables/toast'
 import ComponentButton from '~/components/componentButton.vue'
 
 export default {
   components: {
     adsense: adsense,
     ContentLoader: ContentLoader,
-    ComponentButton: ComponentButton,
+    ComponentButton: ComponentButton
   },
   data() {
     return {
@@ -32,14 +33,15 @@ export default {
       commonBarStore: useCommonBarStore(),
       nowTheme: useThemeStore(),
       useHumbergerStore: useHumbergerStore(),
+      useToastStore: useToastStore()
     }
   },
   computed: {
     availableLocales() {
       return this.$i18n.availableLocales.filter(
-        (i) => i.code !== this.$i18n.locale,
+        (i) => i.code !== this.$i18n.locale
       )
-    },
+    }
   },
   mounted() {
     const isAllow = localStorage.cookieAllowed === 'true'
@@ -85,7 +87,7 @@ export default {
       const authHeader = {
         apiid: this.env.VUE_APP_API_ID,
         apitoken: this.env.VUE_APP_API_TOKEN,
-        apipassword: this.env.VUE_APP_API_ACCESSKEY,
+        apipassword: this.env.VUE_APP_API_ACCESSKEY
       }
       let hd = []
       if (this.isObject(header)) {
@@ -97,7 +99,7 @@ export default {
         this.env.VUE_APP_API_HOST + url,
         sendObject,
         hd,
-        isPost,
+        isPost
       )
     },
     /**
@@ -238,7 +240,7 @@ export default {
      */
     async getProfile(userId) {
       const profile = await this.sendAjaxWithAuth('/getProfile.php', {
-        id: userId,
+        id: userId
       })
       const res = profile.body.res
       if (res) {
@@ -249,7 +251,7 @@ export default {
           icon: res.icon !== '' ? res.icon : null,
           coverImg: res.coverImg !== '' ? res.coverImg : null,
           name: res.name !== '' ? res.name : null,
-          message: res.message !== '' ? res.message : null,
+          message: res.message !== '' ? res.message : null
         }
       } else {
         //存在しない
@@ -295,6 +297,12 @@ export default {
       textarea.innerHTML = inputStr
       return textarea.value
     },
+    setToast(newMessage) {
+      this.useToastStore.setMessage(newMessage)
+      setTimeout(() => {
+        this.useToastStore.setMessage(null)
+      }, 5000)
+    },
 
     //ここからは優先度低いやつ
 
@@ -309,6 +317,6 @@ export default {
     crack() {
       alert('さてはオメー、ソースコードを見ているな！？！？！？')
       return 7095110
-    },
-  },
+    }
+  }
 }

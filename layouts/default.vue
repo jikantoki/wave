@@ -62,6 +62,7 @@
           v-bind:class="[key === dialogActions.length - 1 ? 'btn-default' : 'btn-other']"
           ) {{ btn.value }}
   .right-space(style="min-height: 100vh")
+  componentToast(v-if="useToastStore.message") {{ useToastStore.message }}
 </template>
 
 <script>
@@ -77,6 +78,7 @@ import ComponentPostForm from '~/components/componentPostForm'
 import commonLeftPannel from '~/components/common/commonLeftPannel.vue'
 import commonRightPannel from '~/components/common/commonRightPannel.vue'
 import componentAccountLeftPannel from '~/components/componentAccountLeftPannel.vue'
+import componentToast from '~/components/componentToast.vue'
 
 export default {
   /**
@@ -87,14 +89,15 @@ export default {
    * 使いたいvueファイルを記述
    */
   components: {
-    commonHeader: commonHeader,
-    commonFooter: commonFooter,
-    splash: splash,
-    commonBar: commonBar,
-    ComponentPostForm: ComponentPostForm,
+    commonHeader,
+    commonFooter,
+    splash,
+    commonBar,
+    ComponentPostForm,
     commonLeftPannel,
     commonRightPannel,
-    componentAccountLeftPannel
+    componentAccountLeftPannel,
+    componentToast
   },
   mixins: [mixins],
   /**
