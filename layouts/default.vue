@@ -338,6 +338,7 @@ body {
     }
     @include mq('smartPhone') {
       width: 100%;
+      max-width: max-content;
     }
   }
   .eventsnone {

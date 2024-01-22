@@ -14,6 +14,22 @@
     )
     v-btn(@click="sendPushForAccount(userData.userId)") {{ userData.userId }}に通知を送信
   p(v-if="!userData") unknown user
+  .profile-zone
+    .cover
+      img.cover-img(v-if="userData && userData.coverImg" :src="userData.coverImg")
+      img.cover-img(v-else src="/img/default_cover.jpg")
+    .icon-and-follow.px-2
+      .icon
+        img.icon-img(src="/account_default.jpg")
+      .button
+        v-btn.follow-button フォロー
+    .name-and-id.pl-2
+      .name.text-h5 {{ userData.name ? userData.name : userData.userId }}
+      .id.text-h7 @{{ userData.userId }}
+    .message
+      .message-content(v-html="userData.message ? userData.message : 'ステータスメッセージが設定されていません'")
+    .createdat.my-2
+      p {{ new Date(userData.createdAt * 1000) }}からWaveを利用しています
 v-dialog(v-model="errorMessage" style="max-width: 500px;")
   v-card
     v-card-title 送信失敗
@@ -96,3 +112,46 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.user-page {
+  .profile-zone {
+    .cover {
+      .cover-img {
+        width: 100%;
+        aspect-ratio: 4/1;
+        object-fit: cover;
+      }
+    }
+    .icon-and-follow {
+      display: flex;
+      align-items: flex-end;
+      margin-top: -36px;
+      .icon {
+        height: 72px;
+        .icon-img {
+          border-radius: 9999px;
+          width: 72px;
+          height: 72px;
+          object-fit: cover;
+        }
+      }
+      .button {
+        margin-left: auto;
+        .follow-button {
+          border-radius: 9999px;
+          margin: 0 !important;
+        }
+      }
+    }
+    .name-and-id {
+      .id {
+        opacity: 0.7;
+      }
+    }
+    .createdat {
+      opacity: 0.7;
+    }
+  }
+}
+</style>
