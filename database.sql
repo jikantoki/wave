@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: localhost
--- 生成日時: 2023 年 11 月 28 日 02:16
+-- 生成日時: 2024 年 1 月 30 日 04:11
 -- サーバのバージョン： 5.7.25-log
 -- PHP のバージョン: 7.4.33
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- データベース: `qr4el_vuetemp`
+-- データベース: `qr4el_wave`
 --
 
 -- --------------------------------------------------------
@@ -62,6 +62,24 @@ CREATE TABLE `mail_list` (
 -- --------------------------------------------------------
 
 --
+-- テーブルの構造 `post_list`
+--
+
+CREATE TABLE `post_list` (
+  `postId` varchar(64) NOT NULL COMMENT 'ポスト毎に発行のランダムID',
+  `secretId` varchar(64) NOT NULL COMMENT 'ユーザーsecretId',
+  `message` text NOT NULL COMMENT 'メッセージ本文',
+  `createdAt` int(11) NOT NULL COMMENT 'アップロード時間unixtime',
+  `imageURLs` text COMMENT '添付画像URLカンマ区切り',
+  `soundURL` text COMMENT '添付サウンドURL',
+  `replyId` text COMMENT 'リプライ先のpostId',
+  `quoteId` text COMMENT '引用先のpostId',
+  `category` text COMMENT '投稿のカテゴリー'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- テーブルの構造 `push_token_list`
 --
 
@@ -99,7 +117,8 @@ CREATE TABLE `user_list` (
   `secretId` varchar(64) NOT NULL COMMENT '内部処理用ID',
   `userId` varchar(64) NOT NULL COMMENT '表示用ID',
   `createdAt` int(11) NOT NULL COMMENT '登録時間のunixtime',
-  `status` text COMMENT 'ユーザーステータス'
+  `status` text COMMENT 'ユーザーステータス',
+  `isSecret` int(11) NOT NULL DEFAULT '0' COMMENT '鍵垢かどうか？0で公開垢'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -109,6 +128,7 @@ CREATE TABLE `user_list` (
 --
 
 CREATE TABLE `user_mail_list` (
+  `mailAddressId` varchar(64) NOT NULL COMMENT 'メールアドレスに対するユニークID',
   `secretId` varchar(64) NOT NULL COMMENT '内部処理用ID',
   `mailAddress` text NOT NULL COMMENT 'メアド',
   `status` text NOT NULL COMMENT 'メアドの有効状態',
@@ -129,6 +149,28 @@ CREATE TABLE `USER_MAIL_VIEW` (
 ,`mailAddress` text
 ,`mailStatus` text
 ,`mailToken` text
+);
+
+-- --------------------------------------------------------
+
+--
+-- ビュー用の代替構造 `USER_POST_VIEW`
+-- (実際のビューを参照するには下にあります)
+--
+CREATE TABLE `USER_POST_VIEW` (
+`secretId` varchar(64)
+,`userId` varchar(64)
+,`userStatus` text
+,`userName` text
+,`userIcon` text
+,`isSecret` int(11)
+,`postId` varchar(64)
+,`postMessage` text
+,`postCreatedAt` int(11)
+,`imageURLs` text
+,`soundURL` text
+,`replyId` text
+,`quoteId` text
 );
 
 -- --------------------------------------------------------
@@ -160,6 +202,7 @@ CREATE TABLE `USER_PROFILE_VIEW` (
 ,`coverImg` text
 ,`name` text
 ,`message` text
+,`isSecret` int(11)
 );
 
 -- --------------------------------------------------------
@@ -196,7 +239,16 @@ CREATE TABLE `USER_TOKEN_VIEW` (
 --
 DROP TABLE IF EXISTS `USER_MAIL_VIEW`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`qr4el_vuetempadmin`@`localhost` SQL SECURITY DEFINER VIEW `USER_MAIL_VIEW`  AS SELECT `user_list`.`secretId` AS `secretId`, `user_list`.`userId` AS `userId`, `user_list`.`createdAt` AS `createdAt`, `user_list`.`status` AS `status`, `user_mail_list`.`mailAddress` AS `mailAddress`, `user_mail_list`.`status` AS `mailStatus`, `user_mail_list`.`token` AS `mailToken` FROM (`user_mail_list` join `user_list`) WHERE (`user_mail_list`.`secretId` = `user_list`.`secretId`) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`qr4el_wave_g9i2o3h0`@`localhost` SQL SECURITY DEFINER VIEW `USER_MAIL_VIEW`  AS SELECT `user_list`.`secretId` AS `secretId`, `user_list`.`userId` AS `userId`, `user_list`.`createdAt` AS `createdAt`, `user_list`.`status` AS `status`, `user_mail_list`.`mailAddress` AS `mailAddress`, `user_mail_list`.`status` AS `mailStatus`, `user_mail_list`.`token` AS `mailToken` FROM (`user_mail_list` join `user_list`) WHERE (`user_mail_list`.`secretId` = `user_list`.`secretId`) ;
+
+-- --------------------------------------------------------
+
+--
+-- ビュー用の構造 `USER_POST_VIEW`
+--
+DROP TABLE IF EXISTS `USER_POST_VIEW`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`qr4el_wave_g9i2o3h0`@`localhost` SQL SECURITY DEFINER VIEW `USER_POST_VIEW`  AS SELECT `USER_PROFILE_VIEW`.`secretId` AS `secretId`, `USER_PROFILE_VIEW`.`userId` AS `userId`, `USER_PROFILE_VIEW`.`status` AS `userStatus`, `USER_PROFILE_VIEW`.`name` AS `userName`, `USER_PROFILE_VIEW`.`icon` AS `userIcon`, `USER_PROFILE_VIEW`.`isSecret` AS `isSecret`, `post_list`.`postId` AS `postId`, `post_list`.`message` AS `postMessage`, `post_list`.`createdAt` AS `postCreatedAt`, `post_list`.`imageURLs` AS `imageURLs`, `post_list`.`soundURL` AS `soundURL`, `post_list`.`replyId` AS `replyId`, `post_list`.`quoteId` AS `quoteId` FROM (`USER_PROFILE_VIEW` join `post_list`) WHERE (`USER_PROFILE_VIEW`.`secretId` = `post_list`.`secretId`) ORDER BY `post_list`.`createdAt` DESC ;
 
 -- --------------------------------------------------------
 
@@ -205,7 +257,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`qr4el_vuetempadmin`@`localhost` SQL SECURITY
 --
 DROP TABLE IF EXISTS `USER_PROFILE_VIEW`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`qr4el_vuetempadmin`@`localhost` SQL SECURITY DEFINER VIEW `USER_PROFILE_VIEW`  AS SELECT `user_list`.`secretId` AS `secretId`, `user_list`.`userId` AS `userId`, `user_list`.`createdAt` AS `createdAt`, `user_list`.`status` AS `status`, `user_profile_list`.`icon` AS `icon`, `user_profile_list`.`coverImg` AS `coverImg`, `user_profile_list`.`name` AS `name`, `user_profile_list`.`message` AS `message` FROM (`user_list` join `user_profile_list`) WHERE (`user_list`.`secretId` = `user_profile_list`.`secretId`) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`qr4el_wave_g9i2o3h0`@`localhost` SQL SECURITY DEFINER VIEW `USER_PROFILE_VIEW`  AS SELECT `user_list`.`secretId` AS `secretId`, `user_list`.`userId` AS `userId`, `user_list`.`createdAt` AS `createdAt`, `user_list`.`status` AS `status`, `user_profile_list`.`icon` AS `icon`, `user_profile_list`.`coverImg` AS `coverImg`, `user_profile_list`.`name` AS `name`, `user_profile_list`.`message` AS `message`, `user_list`.`isSecret` AS `isSecret` FROM (`user_list` join `user_profile_list`) WHERE (`user_list`.`secretId` = `user_profile_list`.`secretId`) ;
 
 -- --------------------------------------------------------
 
@@ -214,59 +266,29 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`qr4el_vuetempadmin`@`localhost` SQL SECURITY
 --
 DROP TABLE IF EXISTS `USER_TOKEN_VIEW`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`qr4el_vuetempadmin`@`localhost` SQL SECURITY DEFINER VIEW `USER_TOKEN_VIEW`  AS SELECT `user_list`.`secretId` AS `secretId`, `user_list`.`userId` AS `userId`, `user_list`.`createdAt` AS `userCreatedAt`, `user_list`.`status` AS `status`, `user_accesstoken_list`.`token` AS `token`, `user_accesstoken_list`.`createdAt` AS `tokenCreatedAt` FROM (`user_list` join `user_accesstoken_list`) WHERE (`user_list`.`secretId` = `user_accesstoken_list`.`secretId`) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`qr4el_wave_g9i2o3h0`@`localhost` SQL SECURITY DEFINER VIEW `USER_TOKEN_VIEW`  AS SELECT `user_list`.`secretId` AS `secretId`, `user_list`.`userId` AS `userId`, `user_list`.`createdAt` AS `userCreatedAt`, `user_list`.`status` AS `status`, `user_accesstoken_list`.`token` AS `token`, `user_accesstoken_list`.`createdAt` AS `tokenCreatedAt` FROM (`user_list` join `user_accesstoken_list`) WHERE (`user_list`.`secretId` = `user_accesstoken_list`.`secretId`) ;
 
 --
 -- ダンプしたテーブルのインデックス
 --
 
 --
--- テーブルのインデックス `api_list`
+-- テーブルのインデックス `post_list`
 --
-ALTER TABLE `api_list`
-  ADD PRIMARY KEY (`secretId`);
-
---
--- テーブルのインデックス `api_listForView`
---
-ALTER TABLE `api_listForView`
-  ADD PRIMARY KEY (`secretId`);
-
---
--- テーブルのインデックス `push_token_list`
---
-ALTER TABLE `push_token_list`
-  ADD PRIMARY KEY (`pushId`);
-
---
--- テーブルのインデックス `user_accesstoken_list`
---
-ALTER TABLE `user_accesstoken_list`
-  ADD PRIMARY KEY (`tokenId`);
-
---
--- テーブルのインデックス `user_list`
---
-ALTER TABLE `user_list`
-  ADD PRIMARY KEY (`secretId`),
-  ADD UNIQUE KEY `userId` (`userId`);
+ALTER TABLE `post_list`
+  ADD PRIMARY KEY (`postId`);
 
 --
 -- テーブルのインデックス `user_mail_list`
 --
 ALTER TABLE `user_mail_list`
-  ADD PRIMARY KEY (`secretId`);
+  ADD PRIMARY KEY (`mailAddressId`),
+  ADD UNIQUE KEY `mailAddressId` (`mailAddressId`);
 
 --
 -- テーブルのインデックス `user_profile_list`
 --
 ALTER TABLE `user_profile_list`
-  ADD PRIMARY KEY (`secretId`);
-
---
--- テーブルのインデックス `user_secret_list`
---
-ALTER TABLE `user_secret_list`
   ADD PRIMARY KEY (`secretId`);
 COMMIT;
 
