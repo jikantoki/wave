@@ -5,15 +5,15 @@ require('dotenv').config()
 export default defineNuxtConfig({
   runtimeConfig: {
     public: {
-      env: process.env,
-    },
+      env: process.env
+    }
   },
   ssr: true,
   app: {
     head: {
       htmlAttrs: {
         lang: 'ja',
-        prefix: 'og: http://ogp.me/ns#',
+        prefix: 'og: http://ogp.me/ns#'
       },
       meta: [
         { charset: 'utf-8' },
@@ -22,7 +22,7 @@ export default defineNuxtConfig({
           hid: 'og:image',
           property: 'og:image',
           /** 相対パスNGらしいので各自で書き換えること */
-          content: 'https://wave.enoki.xyz/img/thumbnail.jpg',
+          content: 'https://wave.enoki.xyz/img/thumbnail.jpg'
         },
         { name: 'format-detection', content: 'telephone=no' },
         { name: 'mobile-web-app-capable', content: 'yes' },
@@ -31,34 +31,34 @@ export default defineNuxtConfig({
         { name: 'apple-mobile-web-app-title', content: 'APP_TITLE' },
         { name: 'theme-color', content: '#000000' },
         { name: 'twitter:card', content: 'summary' },
-        { name: 'twitter:creator', content: '@jikantoki' },
+        { name: 'twitter:creator', content: '@jikantoki' }
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-        { rel: 'manifest', href: '/manifest.json' },
-      ],
-    },
+        { rel: 'manifest', href: '/manifest.json' }
+      ]
+    }
   },
   build: {
-    transpile: ['vuetify'],
+    transpile: ['vuetify']
   },
   hooks: {
     'vite:extendConfig': (config) => {
       config.plugins!.push(vuetify())
-    },
+    }
   },
   vite: {
     ssr: {
-      noExternal: ['vuetify'],
+      noExternal: ['vuetify']
     },
     define: {
-      'process.env.DEBUG': false,
-    },
+      'process.env.DEBUG': false
+    }
   },
   css: [
     '@/assets/main.scss',
     'vuetify/lib/styles/main.sass',
-    '@mdi/font/css/materialdesignicons.css',
+    '@mdi/font/css/materialdesignicons.css'
   ],
-  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt'],
+  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt']
 })
