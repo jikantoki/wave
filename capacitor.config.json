@@ -1,0 +1,5 @@
+{
+  "appId": "xyz.enoki.wave",
+  "appName": "wave",
+  "webDir": ".output/public"
+}

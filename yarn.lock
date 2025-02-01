@@ -282,6 +282,16 @@
     "@babel/helper-string-parser" "^7.25.9"
     "@babel/helper-validator-identifier" "^7.25.9"
 
+"@capacitor/android@^7.0.1":
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-7.0.1.tgz#16c45a305edeb8bcf0b083ea52abcc62ca4e5e70"
+  integrity sha512-jukJJHfkcyEBOkFBJRD3EwXMIIQo7lSv0ExPWgsIliPdGXLAj6ElvK2JaYEzec3vKyLc4RTNFVv0PMEU0vnImg==
+
+"@capacitor/ios@^7.0.1":
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/@capacitor/ios/-/ios-7.0.1.tgz#f175f74543edc5faa13de927ababfffff450776f"
+  integrity sha512-RN6S1C1k7ue57DFmJM4EizzsYBrahTTiMhcnlHspFLaojgHbFWZbYq1VriuRKysPU1ka/P+klsdtRFsB5K9jyw==
+
 "@cloudflare/kv-asset-handler@^0.3.4":
   version "0.3.4"
   resolved "https://registry.yarnpkg.com/@cloudflare/kv-asset-handler/-/kv-asset-handler-0.3.4.tgz#5cc152847c8ae4d280ec5d7f4f6ba8c976b585c3"

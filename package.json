@@ -19,6 +19,8 @@
   },
   "dependencies": {
     "@babel/eslint-parser": "^7.22.15",
+    "@capacitor/android": "^7.0.1",
+    "@capacitor/ios": "^7.0.1",
     "@mdi/font": "^7.3.67",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
     "@pinia/nuxt": "^0.5.1",

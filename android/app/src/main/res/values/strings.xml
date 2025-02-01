@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">wave</string>
+    <string name="title_activity_main">wave</string>
+    <string name="package_name">xyz.enoki.wave</string>
+    <string name="custom_url_scheme">xyz.enoki.wave</string>
+</resources>
