@@ -3,7 +3,6 @@
  * しかもどのファイルでも読み込める
  */
 
-//import router from '~/router/router'
 import adsense from '~/components/common/commonAdsense'
 import ajaxFunctions from '~/js/ajaxFunctions'
 import PackageJson from '/package.json'
